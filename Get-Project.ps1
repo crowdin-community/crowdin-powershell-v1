@@ -12,6 +12,5 @@ function Get-Project
     $body = [PSCustomObject]@{
         'key' = $ProjectKey
     }
-    $xml = Invoke-ApiRequest -Url "project/$ProjectId/info" -Body $body | Test-Response
-    $xml.Info
+    Invoke-ApiRequest -Url "project/$ProjectId/info?json" -Body $body | Test-Response
 }

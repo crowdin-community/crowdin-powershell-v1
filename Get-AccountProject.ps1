@@ -12,6 +12,6 @@ function Get-AccountProject
     $body = [PSCustomObject]@{
         'account-key' = $AccountKey
     }
-    $xml = Invoke-ApiRequest -Url "account/get-projects?login=$Login" -Body $body | Test-Response
-    $xml.Success
+    $response = Invoke-ApiRequest -Url "account/get-projects?json&login=$Login" -Body $body | Test-Response
+    $response.Projects
 }

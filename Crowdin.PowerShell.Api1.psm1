@@ -4,7 +4,7 @@ New-Variable HttpClient -Value (New-Object System.Net.Http.HttpClient -Property 
 function Invoke-ApiRequest
 {
     [CmdletBinding(DefaultParameterSetName='GET')]
-    [OutputType([xml])]
+    [OutputType([PSCustomObject])]
     param (
         [Parameter(Mandatory=$true, Position=0)]
         [uri]$Url,
@@ -29,20 +29,20 @@ function Invoke-ApiRequest
         $responseTask = $HttpClient.PostAsync($Url, $content);
     }
     $response = $responseTask.GetAwaiter().GetResult();
-    [xml]$response.Content.ReadAsStringAsync().GetAwaiter().GetResult();
+    $json = $response.Content.ReadAsStringAsync().GetAwaiter().GetResult();
+    ConvertFrom-Json -InputObject $json
 }
 
 function Test-Response
 {
-    [OutputType([xml])]
     param (
         [Parameter(Mandatory=$true, Position=0, ValueFromPipeline=$true)]
-        [xml]$Response
+        $Response
     )
     process {
-        if ($Response.DocumentElement.Name -eq 'error')
+        if ((Get-Member -InputObject $Response -Name 'Error' -MemberType NoteProperty) -and (-not $Response.Success))
         {
-            throw "$($Response.Error.Code): $($Response.Error.Message)"
+            throw $Response.Error
         }
         $Response
     }
