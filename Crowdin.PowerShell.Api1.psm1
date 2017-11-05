@@ -15,21 +15,30 @@ function Invoke-ApiRequest
 
     if ($PSCmdlet.ParameterSetName -eq 'GET')
     {
-        $responseTask = $HttpClient.GetAsync($Url);
+        $response = $HttpClient.GetAsync($Url).GetAwaiter().GetResult()
     }
     else
     {
         $content = New-Object System.Net.Http.MultipartFormDataContent
-        $Body | Get-Member -MemberType Properties | ForEach-Object {
-            $partName = $_.Name
-            $partValue = $Body.($_.Name)
-            $contentPart = New-Object System.Net.Http.StringContent -ArgumentList $partValue
-            $content.Add($contentPart, $partName)
+        foreach ($member in ($Body | Get-Member -MemberType Properties))
+        {
+            $partName = $member.Name
+            $partValue = $Body.($member.Name)
+            if ($partValue -is [System.IO.FileInfo])
+            {
+                $contentPart = New-Object System.Net.Http.StreamContent -ArgumentList ($partValue.OpenRead())
+                $content.Add($contentPart, $partName, $partValue.Name)
+            }
+            else
+            {
+                $contentPart = New-Object System.Net.Http.StringContent -ArgumentList $partValue
+                $content.Add($contentPart, $partName)
+            }
         }
-        $responseTask = $HttpClient.PostAsync($Url, $content);
+        $response = $HttpClient.PostAsync($Url, $content).GetAwaiter().GetResult()
+        $content.Dispose()
     }
-    $response = $responseTask.GetAwaiter().GetResult();
-    $json = $response.Content.ReadAsStringAsync().GetAwaiter().GetResult();
+    $json = $response.Content.ReadAsStringAsync().GetAwaiter().GetResult()
     ConvertFrom-Json -InputObject $json
 }
 
