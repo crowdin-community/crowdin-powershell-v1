@@ -32,15 +32,16 @@ function Get-AccountProject
     [CmdletBinding()]
     param (
         [Parameter(Mandatory=$true)]
+        [Alias('account-key')]
         [string]$AccountKey,
 
         [Parameter(Mandatory=$true)]
-        [string]$Login
+        [Alias('login')]
+        [string]$LoginName
     )
 
-    $body = [PSCustomObject]@{
-        'account-key' = $AccountKey
-    }
-    $response = Invoke-ApiRequest -Url "account/get-projects?json&login=$Login" -Body $body | Test-Response
+    $AccountKey = [Uri]::EscapeDataString($AccountKey)
+    $LoginName = [Uri]::EscapeDataString($LoginName)
+    $response = Invoke-ApiRequest -Url "account/get-projects?json&account-key=$AccountKey&login=$LoginName" | Test-Response
     $response.Projects
 }

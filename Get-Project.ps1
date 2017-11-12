@@ -36,14 +36,15 @@ function Get-Project
     [CmdletBinding()]
     param (
         [Parameter(Mandatory=$true)]
+        [Alias('key')]
         [string]$ProjectKey,
 
         [Parameter(Mandatory=$true)]
+        [Alias('id')]
         [string]$ProjectId
     )
 
-    $body = [PSCustomObject]@{
-        'key' = $ProjectKey
-    }
-    Invoke-ApiRequest -Url "project/$ProjectId/info?json" -Body $body | Test-Response
+    $ProjectId = [Uri]::EscapeDataString($ProjectId)
+    $ProjectKey = [Uri]::EscapeDataString($ProjectKey)
+    Invoke-ApiRequest -Url "project/$ProjectId/info?json&key=$ProjectKey" | Test-Response
 }
