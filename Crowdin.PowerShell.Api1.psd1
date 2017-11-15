@@ -66,6 +66,9 @@ NestedModules = @(
     '.\Get-SupportedLanguage.ps1'
     '.\Get-AccountProject.ps1'
     '.\Get-Project.ps1'
+    '.\New-Project.ps1'
+    '.\Edit-Project.ps1'
+    '.\Remove-Project.ps1'
 )
 
 # Functions to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no functions to export.
@@ -73,6 +76,9 @@ FunctionsToExport = @(
     'Get-SupportedLanguage'
     'Get-AccountProject'
     'Get-Project'
+    'New-Project'
+    'Edit-Project'
+    'Remove-Project'
 )
 
 # Cmdlets to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no cmdlets to export.
