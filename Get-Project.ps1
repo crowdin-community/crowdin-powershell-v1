@@ -35,12 +35,12 @@ function Get-Project
 {
     [CmdletBinding()]
     param (
-        [Parameter(Mandatory=$true)]
+        [Parameter(Mandatory)]
         [Alias('key')]
         [string]$ProjectKey,
 
-        [Parameter(Mandatory=$true)]
-        [Alias('id')]
+        [Parameter(Mandatory)]
+        [Alias('identifier')]
         [string]$ProjectId
     )
 
