@@ -69,6 +69,8 @@ NestedModules = @(
     '.\New-Project.ps1'
     '.\Edit-Project.ps1'
     '.\Remove-Project.ps1'
+    '.\Add-File.ps1'
+    '.\Remove-File.ps1'
 )
 
 # Functions to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no functions to export.
@@ -79,6 +81,8 @@ FunctionsToExport = @(
     'New-Project'
     'Edit-Project'
     'Remove-Project'
+    'Add-File'
+    'Remove-File'
 )
 
 # Cmdlets to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no cmdlets to export.
