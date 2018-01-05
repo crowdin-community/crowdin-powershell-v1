@@ -71,6 +71,7 @@ NestedModules = @(
     '.\Remove-Project.ps1'
     '.\Add-File.ps1'
     '.\Remove-File.ps1'
+    '.\Export-TopMembersReport.ps1'
 )
 
 # Functions to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no functions to export.
@@ -83,6 +84,7 @@ FunctionsToExport = @(
     'Remove-Project'
     'Add-File'
     'Remove-File'
+    'Export-TopMembersReport'
 )
 
 # Cmdlets to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no cmdlets to export.
