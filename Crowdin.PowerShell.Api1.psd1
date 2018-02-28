@@ -63,15 +63,15 @@ RequiredAssemblies = @('System.Net.Http')
 
 # Modules to import as nested modules of the module specified in RootModule/ModuleToProcess
 NestedModules = @(
-    '.\Get-SupportedLanguage.ps1'
-    '.\Get-AccountProject.ps1'
-    '.\Get-Project.ps1'
-    '.\New-Project.ps1'
-    '.\Edit-Project.ps1'
-    '.\Remove-Project.ps1'
-    '.\Add-File.ps1'
-    '.\Remove-File.ps1'
-    '.\Export-TopMembersReport.ps1'
+    '.\Api\Get-SupportedLanguage.ps1'
+    '.\Api\Get-AccountProject.ps1'
+    '.\Api\Get-Project.ps1'
+    '.\Api\New-Project.ps1'
+    '.\Api\Edit-Project.ps1'
+    '.\Api\Remove-Project.ps1'
+    '.\Api\Add-File.ps1'
+    '.\Api\Remove-File.ps1'
+    '.\Api\Export-TopMembersReport.ps1'
 )
 
 # Functions to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no functions to export.
