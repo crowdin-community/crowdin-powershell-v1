@@ -2,6 +2,34 @@ New-Variable ApiBaseUrl -Value ([uri]'https://api.crowdin.com/api/') -Option Con
 New-Variable HttpClient -Value (New-Object System.Net.Http.HttpClient -Property @{BaseAddress=$ApiBaseUrl}) -Option Constant
 
 . .\ConvertFrom-PSCmdlet.ps1
+. .\ConvertTo-MultipartFormDataContent.ps1
+
+function Invoke-GetRequest
+{
+    [OutputType([System.Net.Http.HttpResponseMessage])]
+    param (
+        [Parameter(Mandatory)]
+        [uri]$Url
+    )
+
+    $HttpClient.GetAsync($Url).GetAwaiter().GetResult()
+}
+
+function Invoke-PostRequest
+{
+    [OutputType([System.Net.Http.HttpResponseMessage])]
+    param (
+        [Parameter(Mandatory)]
+        [uri]$Url,
+
+        [Parameter(Mandatory)]
+        [System.Net.Http.MultipartFormDataContent]
+        $Content
+    )
+
+    $HttpClient.PostAsync($Url, $Content).GetAwaiter().GetResult()
+}
+
 function Invoke-ApiRequest
 {
     [CmdletBinding(DefaultParameterSetName='GET')]
@@ -17,28 +45,17 @@ function Invoke-ApiRequest
     process {
         if ($PSCmdlet.ParameterSetName -eq 'GET')
         {
-            $response = $HttpClient.GetAsync($Url).GetAwaiter().GetResult()
+            $response = Invoke-GetRequest -Url $Url
         }
         else
         {
-            $content = New-Object System.Net.Http.MultipartFormDataContent
-            foreach ($member in ($Body | Get-Member -MemberType Properties))
-            {
-                $partName = $member.Name
-                $partValue = $Body.($member.Name)
-                if ($partValue -is [System.IO.FileInfo])
-                {
-                    $contentPart = New-Object System.Net.Http.StreamContent -ArgumentList ($partValue.OpenRead())
-                    $content.Add($contentPart, $partName, $partValue.Name)
-                }
-                else
-                {
-                    $contentPart = New-Object System.Net.Http.StringContent -ArgumentList $partValue
-                    $content.Add($contentPart, $partName)
-                }
+            $content = ConvertTo-MultipartFormDataContent -Object $Body
+            try {
+                $response = Invoke-PostRequest -Url $Url -Content $content
             }
-            $response = $HttpClient.PostAsync($Url, $content).GetAwaiter().GetResult()
-            $content.Dispose()
+            finally {
+                $content.Dispose()
+            }
         }
         $json = $response.Content.ReadAsStringAsync().GetAwaiter().GetResult()
         ConvertFrom-Json -InputObject $json
