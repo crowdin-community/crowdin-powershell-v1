@@ -12,7 +12,7 @@ Account API key (profile settings -> "API & SSO" tab).
 Your Crowdin Account login name.
 
 .EXAMPLE
-PS C:\> Get-CrowdinAccountProject -AccountKey 1978a...f9f54 -LoginName yurko7
+PS C:\> Get-CrowdinAccountProject -LoginName yurko7 -AccountKey 1978a...f9f54
 
 role         : owner
 name         : ExploreCrowdin
@@ -31,17 +31,16 @@ function Get-AccountProject
 {
     [CmdletBinding()]
     param (
-        [Parameter(Mandatory=$true)]
-        [Alias('account-key')]
-        [string]$AccountKey,
-
-        [Parameter(Mandatory=$true)]
+        [Parameter(Mandatory)]
         [Alias('login')]
-        [string]$LoginName
+        [string]$LoginName,
+
+        [Parameter(Mandatory)]
+        [Alias('account-key')]
+        [string]$AccountKey
     )
 
-    $AccountKey = [Uri]::EscapeDataString($AccountKey)
-    $LoginName = [Uri]::EscapeDataString($LoginName)
-    $response = Invoke-ApiRequest -Url "account/get-projects?json&account-key=$AccountKey&login=$LoginName" | Test-Response
+    $body = $PSCmdlet | ConvertFrom-PSCmdlet
+    $response = Invoke-ApiRequest -Url 'account/get-projects?json' -Body $body | Test-Response
     $response.Projects
 }

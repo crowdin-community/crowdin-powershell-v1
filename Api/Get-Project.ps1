@@ -12,7 +12,7 @@ Project API key.
 Should contain the project identifier.
 
 .EXAMPLE
-PS C:\> Get-CrowdinProject -ProjectKey 2b680...ce586 -ProjectId apitestproject | Select-Object -ExpandProperty details
+PS C:\> Get-CrowdinProject -ProjectId apitestproject -ProjectKey 2b680...ce586 | Select-Object -ExpandProperty details
 
 source_language         : @{name=English; code=en}
 name                    : ApiTestProject
@@ -36,15 +36,15 @@ function Get-Project
     [CmdletBinding()]
     param (
         [Parameter(Mandatory)]
-        [Alias('key')]
-        [string]$ProjectKey,
+        [Alias('identifier')]
+        [string]$ProjectId,
 
         [Parameter(Mandatory)]
-        [Alias('identifier')]
-        [string]$ProjectId
+        [Alias('key')]
+        [string]$ProjectKey
     )
 
     $ProjectId = [Uri]::EscapeDataString($ProjectId)
-    $ProjectKey = [Uri]::EscapeDataString($ProjectKey)
-    Invoke-ApiRequest -Url "project/$ProjectId/info?json&key=$ProjectKey" | Test-Response
+    $body = $PSCmdlet | ConvertFrom-PSCmdlet -ExcludeParameter ProjectId
+    Invoke-ApiRequest -Url "project/$ProjectId/info?json" -Body $body | Test-Response
 }
