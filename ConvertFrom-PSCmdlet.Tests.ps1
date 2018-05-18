@@ -16,6 +16,10 @@ function Test-ConvertFromPSCmdlet {
         [Parameter()]
         [datetime]$DateTimeParam,
         [Parameter()]
+        [array]$ArrayParam,
+        [Parameter()]
+        [hashtable]$HashtableParam,
+        [Parameter()]
         [Alias('AliasedParam')]
         $NamedParam,
         [Parameter()]
@@ -44,17 +48,31 @@ Describe "ConvertFrom-PSCmdlet" {
             IntParam = 7
             BoolParam = $true
             DateTimeParam = Get-Date -Year 1987 -Month 6 -Day 19 -Hour 16 -Minute 7 -Second 0
+            ArrayParam = 'a','b','c','d','e'
+            HashtableParam = @{A = 'a1'; B = 'b2'; C = 'c3'}
             NamedParam = 'name'
         }
         $object = Test-ConvertFromPSCmdlet @params
         It "generates expected number of properties" {
-            ($object | Get-Member -MemberType NoteProperty).Length | Should -Be $params.Count
+            ($object | Get-Member -MemberType NoteProperty).Length | Should -BeExactly 13
         }
         It "keeps type of boolean values" {
             $object.BoolParam | Should -BeOfType [bool]
         }
         It "formats date-time to ISO-8601 string" {
             $object.DateTimeParam | Should -BeExactly '1987-06-19T16:07:00'
+        }
+        It "generates property for each array element" {
+            for ($i = 0; $i -lt $params.ArrayParam.Length; $i++)
+            {
+                $object.("ArrayParam[$i]") | Should -BeExactly $params.ArrayParam[$i]
+            }
+        }
+        It "generates property for each hashtable entry" {
+            foreach ($key in $params.HashtableParam.Keys)
+            {
+                $object.("HashtableParam[$key]") | Should -BeExactly $params.HashtableParam[$key]
+            }
         }
         It "respects parameter aliases" {
             $object.AliasedParam | Should -BeExactly 'name'
