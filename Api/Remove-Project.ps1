@@ -12,7 +12,7 @@ Project API key.
 Should contain the project identifier.
 
 .EXAMPLE
-Remove-CrowdinProject -ProjectKey 2b680...ce586 -ProjectId apitestproject
+Remove-CrowdinProject -ProjectId apitestproject -ProjectKey 2b680...ce586
 
 #>
 function Remove-Project
@@ -20,15 +20,15 @@ function Remove-Project
     [CmdletBinding()]
     param (
         [Parameter(Mandatory)]
-        [Alias('key')]
-        [string]$ProjectKey,
+        [Alias('identifier')]
+        [string]$ProjectId,
 
         [Parameter(Mandatory)]
-        [Alias('identifier')]
-        [string]$ProjectId
+        [Alias('key')]
+        [string]$ProjectKey
     )
 
     $ProjectId = [Uri]::EscapeDataString($ProjectId)
-    $ProjectKey = [Uri]::EscapeDataString($ProjectKey)
-    Invoke-ApiRequest -Url "project/$ProjectId/delete-project?json&key=$ProjectKey" | Test-Response
+    $body = $PSCmdlet | ConvertFrom-PSCmdlet -ExcludeParameter ProjectId
+    Invoke-ApiRequest -Url "project/$ProjectId/delete-project?json" -Body $body | Test-Response
 }

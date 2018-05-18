@@ -69,7 +69,7 @@ Open this URL when project translation is complete. URL will be opened with "pro
 Open this URL when project proofreading is complete. URL will be opened with "project" - project identifier and "language" - language code.
 
 .EXAMPLE
-PS C:\> Edit-CrowdinProject -ProjectKey 2b680...ce586 -ProjectId apitestproject
+PS C:\> Edit-CrowdinProject -ProjectId apitestproject -ProjectKey 2b680...ce586
 
 #>
 function Edit-Project
@@ -78,14 +78,14 @@ function Edit-Project
     param (
         [Parameter(Mandatory)]
         [ValidateNotNullOrEmpty()]
-        [Alias('key')]
-        [string]$ProjectKey,
+        [Alias('identifier')]
+        [string]$ProjectId,
 
         [Parameter(Mandatory)]
         [ValidateNotNullOrEmpty()]
-        [Alias('identifier')]
-        [string]$ProjectId,
-        
+        [Alias('key')]
+        [string]$ProjectKey,
+
         [Parameter()]
         [ValidateNotNullOrEmpty()]
         [string]$Name,
@@ -140,7 +140,7 @@ function Edit-Project
 
         [Parameter()]
         [Alias('qa_checks')]
-        [System.Collections.HashTable]$QAChecks,
+        [hashtable]$QAChecks,
 
         [Parameter()]
         [Alias('webhook_file_translated')]
@@ -160,86 +160,6 @@ function Edit-Project
     )
 
     $ProjectId = [Uri]::EscapeDataString($ProjectId)
-    $body = [pscustomobject]@{
-        'key' = $ProjectKey
-    }
-    if ($PSBoundParameters.ContainsKey('Name'))
-    {
-        $body | Add-Member 'name' $Name
-    }
-    if ($PSBoundParameters.ContainsKey('Languages'))
-    {
-        for ($i = 0; $i -lt $Languages.Length; $i++)
-        {
-            $body | Add-Member "languages[$i]" $Languages[$i]
-        }
-    }
-    if ($PSBoundParameters.ContainsKey('JoinPolicy'))
-    {
-        $body | Add-Member 'join_policy' $JoinPolicy
-    }
-    if ($PSBoundParameters.ContainsKey('LanguageAccessPolicy'))
-    {
-        $body | Add-Member 'language_access_policy' $LanguageAccessPolicy
-    }
-    if ($PSBoundParameters.ContainsKey('HideDuplicates'))
-    {
-        $body | Add-Member 'hide_duplicates' $HideDuplicates
-    }
-    if ($PSBoundParameters.ContainsKey('ExportTranslatedOnly'))
-    {
-        $body | Add-Member 'export_translated_only' ([int]$ExportTranslatedOnly.ToBool())
-    }
-    if ($PSBoundParameters.ContainsKey('ExportApprovedOnly'))
-    {
-        $body | Add-Member 'export_approved_only' ([int]$ExportApprovedOnly.ToBool())
-    }
-    if ($PSBoundParameters.ContainsKey('AutoTranslateDialects'))
-    {
-        $body | Add-Member 'auto_translate_dialects' ([int]$AutoTranslateDialects.ToBool())
-    }
-    if ($PSBoundParameters.ContainsKey('PublicDownloads'))
-    {
-        $body | Add-Member 'public_downloads' ([int]$PublicDownloads.ToBool())
-    }
-    if ($PSBoundParameters.ContainsKey('UseGlobalTM'))
-    {
-        $body | Add-Member 'use_global_tm' ([int]$UseGlobalTM.ToBool())
-    }
-    if ($PSBoundParameters.ContainsKey('Logo'))
-    {
-        $body | Add-Member 'logo' $Logo
-    }
-    if ($PSBoundParameters.ContainsKey('DomainName'))
-    {
-        $body | Add-Member 'cname' $DomainName
-    }
-    if ($PSBoundParameters.ContainsKey('Description'))
-    {
-        $body | Add-Member 'description' $Description
-    }
-    if ($PSBoundParameters.ContainsKey('QAChecks'))
-    {
-        foreach ($qaCheck in $QAChecks.Keys)
-        {
-            $body | Add-Member "qa_checks[$qaCheck]" ([int]$QAChecks[$qaCheck])
-        }
-    }
-    if ($PSBoundParameters.ContainsKey('WebhookFileTranslated'))
-    {
-        $body | Add-Member 'webhook_file_translated' $WebhookFileTranslated
-    }
-    if ($PSBoundParameters.ContainsKey('WebhookFileProofread'))
-    {
-        $body | Add-Member 'webhook_file_proofread' $WebhookFileProofread
-    }
-    if ($PSBoundParameters.ContainsKey('WebhookProjectTranslated'))
-    {
-        $body | Add-Member 'webhook_project_translated' $WebhookProjectTranslated
-    }
-    if ($PSBoundParameters.ContainsKey('WebhookProjectProofread'))
-    {
-        $body | Add-Member 'webhook_project_proofread' $WebhookProjectProofread
-    }
+    $body = $PSCmdlet | ConvertFrom-PSCmdlet -ExcludeParameter ProjectId
     Invoke-ApiRequest -Url "project/$ProjectId/edit-project?json" -Body $body | Test-Response
 }

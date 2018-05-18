@@ -18,7 +18,7 @@ File name that should be deleted.
 The name of related version branch.
 
 .EXAMPLE
-Remove-CrowdinFile -ProjectKey 2b680...ce586 -ProjectId apitestproject -FileName 'test.xml'
+Remove-CrowdinFile -ProjectId apitestproject -ProjectKey 2b680...ce586 -FileName 'test.xml'
 
 #>
 function Remove-File
@@ -27,31 +27,24 @@ function Remove-File
     param (
         [Parameter(Mandatory)]
         [ValidateNotNullOrEmpty()]
-        [Alias('key')]
-        [string]$ProjectKey,
-
-        [Parameter(Mandatory)]
-        [ValidateNotNullOrEmpty()]
         [Alias('identifier')]
         [string]$ProjectId,
 
         [Parameter(Mandatory)]
         [ValidateNotNullOrEmpty()]
+        [Alias('key')]
+        [string]$ProjectKey,
+
+        [Parameter(Mandatory)]
+        [ValidateNotNullOrEmpty()]
         [Alias('file')]
         [string]$FileName,
-        
+
         [Parameter()]
         [string]$Branch
     )
 
     $ProjectId = [Uri]::EscapeDataString($ProjectId)
-    $body = [pscustomobject]@{
-        'key' = $ProjectKey
-        'file' = $FileName
-    }
-    if ($PSBoundParameters.ContainsKey('Branch'))
-    {
-        $body | Add-Member 'branch' $Branch
-    }
+    $body = $PSCmdlet | ConvertFrom-PSCmdlet -ExcludeParameter ProjectId
     Invoke-ApiRequest -Url "project/$ProjectId/delete-file?json" -Body $body | Test-Response
 }
