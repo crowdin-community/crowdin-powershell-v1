@@ -105,7 +105,7 @@ Describe "ConvertFrom-PSCmdlet" {
         $members = $object | Get-Member -MemberType NoteProperty
         It "does not generate properties for excluded parameters" {
              $members.Length | Should -BeExactly 1
-             $members[0].Name | Should -BeExactly IntParam
+             $members[0].Name | Should -BeExactly intparam
         }
     }
 }

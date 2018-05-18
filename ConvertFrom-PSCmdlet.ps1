@@ -38,6 +38,7 @@ function ConvertFrom-PSCmdlet
                 $members
             }
 
+            $ParameterName = $ParameterName.ToLower()
             if ($ParameterValue -is [System.Management.Automation.SwitchParameter]) { Expand-Switch }
             elseif ($ParameterValue -is [System.DateTime]) { Expand-DateTime }
             elseif ($ParameterValue -is [array]) { Expand-Array }
