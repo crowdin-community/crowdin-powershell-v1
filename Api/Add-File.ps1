@@ -4,13 +4,13 @@ function Add-File
     param (
         [Parameter(Mandatory)]
         [ValidateNotNullOrEmpty()]
-        [Alias('key')]
-        [string]$ProjectKey,
+        [Alias('identifier')]
+        [string]$ProjectId,
 
         [Parameter(Mandatory)]
         [ValidateNotNullOrEmpty()]
-        [Alias('identifier')]
-        [string]$ProjectId,
+        [Alias('key')]
+        [string]$ProjectKey,
 
         [Parameter(Mandatory)]
         [string]$FileName,
@@ -32,12 +32,38 @@ function Add-File
         [switch]$FirstLineContainsHeader,
 
         [Parameter()]
+        [Alias('import_translations')]
+        [switch]$ImportTranslations,
+
+        [Parameter()]
         [string]$Scheme,
         
         [Parameter()]
-        [string]$Branch
+        [string]$Branch,
+
+        [Parameter()]
+        [Alias('translate_content')]
+        [switch]$TranslateContent,
+
+        [Parameter()]
+        [Alias('translate_attributes')]
+        [switch]$TranslateAttributes,
+
+        [Parameter()]
+        [Alias('content_segmentation')]
+        [switch]$ContentSegmentation,
+
+        [Parameter()]
+        [Alias('translatable_elements')]
+        [string[]]$TranslatableElements,
+
+        [Parameter()]
+        [Alias('escape_quotes')]
+        [ValidateRange(0, 3)]
+        [int]$EscapeQuotes
     )
 
+    $ProjectId = [Uri]::EscapeDataString($ProjectId)
     $body = [pscustomobject]@{
         'key' = $ProjectKey
         "files[$FileName]" = $File
@@ -50,21 +76,6 @@ function Add-File
     {
         $body | Add-Member "export_patterns[$FileName]" $ExportPattern
     }
-    if ($PSBoundParameters.ContainsKey('Type'))
-    {
-        $body | Add-Member 'type' $Type
-    }
-    if ($FirstLineContainsHeader)
-    {
-        $body | Add-Member 'first_line_contains_header' ([int]$FirstLineContainsHeader.ToBool())
-    }
-    if ($PSBoundParameters.ContainsKey('Scheme'))
-    {
-        $body | Add-Member 'scheme' $Scheme
-    }
-    if ($PSBoundParameters.ContainsKey('Branch'))
-    {
-        $body | Add-Member 'branch' $Branch
-    }
+    $body = $PSCmdlet | ConvertFrom-PSCmdlet -TargetObject $body -ExcludeParameter ProjectId,ProjectKey,FileName,File,Title,ExportPattern
     Invoke-ApiRequest -Url "project/$ProjectId/add-file?json" -Body $body | Test-Response
 }
