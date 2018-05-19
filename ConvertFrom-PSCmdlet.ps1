@@ -7,6 +7,10 @@ function ConvertFrom-PSCmdlet
         [System.Management.Automation.PSCmdlet]$Command,
 
         [Parameter()]
+        [ValidateNotNull()]
+        [PSCustomObject]$TargetObject = [PSCustomObject]@{},
+
+        [Parameter()]
         [string[]]$ExcludeParameter
     )
 
@@ -48,7 +52,6 @@ function ConvertFrom-PSCmdlet
     }
 
     process {
-        $requestBody = [PSCustomObject]@{}
         $myInvocation = $Command.MyInvocation
         foreach ($boundParameterName in $myInvocation.BoundParameters.Keys)
         {
@@ -63,8 +66,8 @@ function ConvertFrom-PSCmdlet
             $requestParameterName = if ($parameterAliases) { $parameterAliases[0] } else { $boundParameterName }
             $boundParameterValue = $myInvocation.BoundParameters[$boundParameterName]
 
-            $requestBody | Add-Member -NotePropertyMembers (Expand-Parameter $requestParameterName $boundParameterValue)
+            $TargetObject | Add-Member -NotePropertyMembers (Expand-Parameter $requestParameterName $boundParameterValue)
         }
-        $requestBody
+        $TargetObject
     }
 }
