@@ -72,6 +72,7 @@ NestedModules = @(
     '.\Api\Measure-Project.ps1'
     '.\Api\Measure-Language.ps1'
     '.\Api\Add-File.ps1'
+    '.\Api\Update-File.ps1'
     '.\Api\Remove-File.ps1'
     '.\Api\Export-TopMembersReport.ps1'
 )
@@ -87,6 +88,7 @@ FunctionsToExport = @(
     'Measure-Project'
     'Measure-Language'
     'Add-File'
+    'Update-File'
     'Remove-File'
     'Export-TopMembersReport'
 )
