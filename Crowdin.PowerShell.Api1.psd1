@@ -74,6 +74,7 @@ NestedModules = @(
     '.\Api\Add-File.ps1'
     '.\Api\Update-File.ps1'
     '.\Api\Remove-File.ps1'
+    '.\Api\Add-Translation.ps1'
     '.\Api\Export-TopMembersReport.ps1'
 )
 
@@ -90,6 +91,7 @@ FunctionsToExport = @(
     'Add-File'
     'Update-File'
     'Remove-File'
+    'Add-Translation'
     'Export-TopMembersReport'
 )
 
