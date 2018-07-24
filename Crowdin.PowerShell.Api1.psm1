@@ -11,8 +11,9 @@ function Invoke-GetRequest
         [Parameter(Mandatory)]
         [uri]$Url
     )
-
-    $HttpClient.GetAsync($Url).GetAwaiter().GetResult()
+    process {
+        $HttpClient.GetAsync($Url).GetAwaiter().GetResult()
+    }
 }
 
 function Invoke-PostRequest
@@ -23,11 +24,17 @@ function Invoke-PostRequest
         [uri]$Url,
 
         [Parameter(Mandatory)]
-        [System.Net.Http.MultipartFormDataContent]
-        $Content
+        [psobject]$Body
     )
-
-    $HttpClient.PostAsync($Url, $Content).GetAwaiter().GetResult()
+    process {
+        $content = ConvertTo-MultipartFormDataContent -Object $Body
+        try {
+            $HttpClient.PostAsync($Url, $Content).GetAwaiter().GetResult()
+        }
+        finally {
+            $content.Dispose()
+        }
+    }
 }
 
 function Invoke-ApiRequest
@@ -46,19 +53,13 @@ function Invoke-ApiRequest
     )
 
     process {
-        if ($PSCmdlet.ParameterSetName -eq 'GET')
+        $response = if ($PSCmdlet.ParameterSetName -eq 'GET')
         {
-            $response = Invoke-GetRequest -Url $Url
+            Invoke-GetRequest -Url $Url
         }
         else
         {
-            $content = ConvertTo-MultipartFormDataContent -Object $Body
-            try {
-                $response = Invoke-PostRequest -Url $Url -Content $content
-            }
-            finally {
-                $content.Dispose()
-            }
+            Invoke-PostRequest -Url $Url -Body $Body
         }
 
         $responseContent = $response.Content
@@ -68,12 +69,7 @@ function Invoke-ApiRequest
         }
         else
         {
-            if ($responseContent.Headers.ContentType.MediaType -ne 'application/json')
-            {
-                throw "Only JSON content is acceptable."
-            }
-            $json = $responseContent.ReadAsStringAsync().GetAwaiter().GetResult()
-            ConvertFrom-Json -InputObject $json | Test-Response
+            Read-Response -Content $responseContent | Test-Response
         }
     }
 }
@@ -105,6 +101,22 @@ function Save-File
             Success = $true
             File = [System.IO.FileInfo]$outFile
         }
+    }
+}
+
+function Read-Response
+{
+    param (
+        [Parameter(Mandatory)]
+        [System.Net.Http.HttpContent]$Content
+    )
+    process {
+        if ($Content.Headers.ContentType.MediaType -ne 'application/json')
+        {
+            throw "Only JSON content is acceptable."
+        }
+        $json = $Content.ReadAsStringAsync().GetAwaiter().GetResult()
+        ConvertFrom-Json -InputObject $json
     }
 }
 
