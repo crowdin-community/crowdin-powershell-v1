@@ -161,5 +161,5 @@ function Edit-Project
 
     $ProjectId = [Uri]::EscapeDataString($ProjectId)
     $body = $PSCmdlet | ConvertFrom-PSCmdlet -ExcludeParameter ProjectId
-    Invoke-ApiRequest -Url "project/$ProjectId/edit-project?json" -Body $body | Test-Response
+    Invoke-ApiRequest -Url "project/$ProjectId/edit-project?json" -Body $body
 }

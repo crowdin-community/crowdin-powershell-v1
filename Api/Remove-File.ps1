@@ -46,5 +46,5 @@ function Remove-File
 
     $ProjectId = [Uri]::EscapeDataString($ProjectId)
     $body = $PSCmdlet | ConvertFrom-PSCmdlet -ExcludeParameter ProjectId
-    Invoke-ApiRequest -Url "project/$ProjectId/delete-file?json" -Body $body | Test-Response
+    Invoke-ApiRequest -Url "project/$ProjectId/delete-file?json" -Body $body
 }

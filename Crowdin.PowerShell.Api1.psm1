@@ -73,7 +73,7 @@ function Invoke-ApiRequest
                 throw "Only JSON content is acceptable."
             }
             $json = $responseContent.ReadAsStringAsync().GetAwaiter().GetResult()
-            ConvertFrom-Json -InputObject $json
+            ConvertFrom-Json -InputObject $json | Test-Response
         }
     }
 }
@@ -126,7 +126,7 @@ function Resolve-OutFileName
 function Test-Response
 {
     param (
-        [Parameter(Mandatory, Position=0, ValueFromPipeline)]
+        [Parameter(Mandatory, ValueFromPipeline)]
         $Response
     )
     process {

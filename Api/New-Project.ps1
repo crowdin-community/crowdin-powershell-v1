@@ -191,5 +191,5 @@ function New-Project
     )
 
     $body = $PSCmdlet | ConvertFrom-PSCmdlet
-    Invoke-ApiRequest -Url "account/create-project?json" -Body $body | Test-Response
+    Invoke-ApiRequest -Url "account/create-project?json" -Body $body
 }

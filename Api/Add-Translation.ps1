@@ -46,5 +46,5 @@ function Add-Translation
         "files[$FileName]" = $File
     }
     $body = $PSCmdlet | ConvertFrom-PSCmdlet -TargetObject $body -ExcludeParameter ProjectId,ProjectKey,FileName,File
-    Invoke-ApiRequest -Url "project/$ProjectId/upload-translation?json" -Body $body | Test-Response
+    Invoke-ApiRequest -Url "project/$ProjectId/upload-translation?json" -Body $body
 }

@@ -22,6 +22,6 @@ function Save-TopMembersReport
     $ProjectId = [Uri]::EscapeDataString($ProjectId)
     $ProjectKey = [Uri]::EscapeDataString($ProjectKey)
     $Hash = [Uri]::EscapeDataString($Hash)
-    $response = Invoke-ApiRequest -Url "project/$ProjectId/reports/top-members/download?json&key=$ProjectKey&hash=$Hash" -OutDir $OutDir | Test-Response
+    $response = Invoke-ApiRequest -Url "project/$ProjectId/reports/top-members/download?json&key=$ProjectKey&hash=$Hash" -OutDir $OutDir
     $response.File
 }

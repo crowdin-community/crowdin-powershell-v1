@@ -77,5 +77,5 @@ function Add-File
         $body | Add-Member "export_patterns[$FileName]" $ExportPattern
     }
     $body = $PSCmdlet | ConvertFrom-PSCmdlet -TargetObject $body -ExcludeParameter ProjectId,ProjectKey,FileName,File,Title,ExportPattern
-    Invoke-ApiRequest -Url "project/$ProjectId/add-file?json" -Body $body | Test-Response
+    Invoke-ApiRequest -Url "project/$ProjectId/add-file?json" -Body $body
 }

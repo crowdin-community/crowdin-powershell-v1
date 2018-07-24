@@ -41,6 +41,6 @@ function Get-AccountProject
     )
 
     $body = $PSCmdlet | ConvertFrom-PSCmdlet
-    $response = Invoke-ApiRequest -Url 'account/get-projects?json' -Body $body | Test-Response
+    $response = Invoke-ApiRequest -Url 'account/get-projects?json' -Body $body
     $response.Projects
 }

@@ -66,5 +66,5 @@ function Update-File
         $body | Add-Member "new_names[$FileName]" $NewFileName
     }
     $body = $PSCmdlet | ConvertFrom-PSCmdlet -TargetObject $body -ExcludeParameter ProjectId,ProjectKey,FileName,File,Title,ExportPattern,NewFileName
-    Invoke-ApiRequest -Url "project/$ProjectId/update-file?json" -Body $body | Test-Response
+    Invoke-ApiRequest -Url "project/$ProjectId/update-file?json" -Body $body
 }
