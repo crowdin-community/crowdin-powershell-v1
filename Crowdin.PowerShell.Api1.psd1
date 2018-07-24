@@ -75,8 +75,10 @@ NestedModules = @(
     '.\Api\Update-File.ps1'
     '.\Api\Remove-File.ps1'
     '.\Api\Add-Translation.ps1'
+    '.\Api\Save-Translation.ps1'
     '.\Api\Get-Issue.ps1'
     '.\Api\Export-TopMembersReport.ps1'
+    '.\Api\Save-TopMembersReport.ps1'
 )
 
 # Functions to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no functions to export.
@@ -93,8 +95,10 @@ FunctionsToExport = @(
     'Update-File'
     'Remove-File'
     'Add-Translation'
+    'Save-Translation'
     'Get-Issue'
     'Export-TopMembersReport'
+    'Save-TopMembersReport'
 )
 
 # Cmdlets to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no cmdlets to export.
