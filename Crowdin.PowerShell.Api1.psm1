@@ -39,7 +39,10 @@ function Invoke-ApiRequest
         [uri]$Url,
 
         [Parameter(Mandatory, ValueFromPipeline, ParameterSetName='POST')]
-        [psobject]$Body
+        [psobject]$Body,
+
+        [Parameter()]
+        [string]$OutDir
     )
 
     process {
@@ -57,8 +60,66 @@ function Invoke-ApiRequest
                 $content.Dispose()
             }
         }
-        $json = $response.Content.ReadAsStringAsync().GetAwaiter().GetResult()
-        ConvertFrom-Json -InputObject $json
+
+        $responseContent = $response.Content
+        if ($responseContent.Headers.ContentDisposition)
+        {
+            Save-File -Content $responseContent -OutDir $OutDir
+        }
+        else
+        {
+            if ($responseContent.Headers.ContentType.MediaType -ne 'application/json')
+            {
+                throw "Only JSON content is acceptable."
+            }
+            $json = $responseContent.ReadAsStringAsync().GetAwaiter().GetResult()
+            ConvertFrom-Json -InputObject $json
+        }
+    }
+}
+
+function Save-File
+{
+    param (
+        [Parameter(Mandatory)]
+        [System.Net.Http.HttpContent]$Content,
+
+        [Parameter(Mandatory)]
+        [string]$OutDir
+    )
+    process {
+        $outFile = Resolve-OutFileName -OutDir $OutDir -ContentDisposition $Content.Headers.ContentDisposition
+        if (-not (Test-Path -LiteralPath $outFile -IsValid))
+        {
+            throw "Invalid file name: `"$outFile`"."
+        }
+        $outStream = [System.IO.File]::Create($outFile)
+        try {
+            [void]$Content.CopyToAsync($outStream).GetAwaiter().GetResult()
+        }
+        finally {
+            $outStream.Dispose()
+        }
+
+        [PSCustomObject]@{
+            Success = $true
+            File = [System.IO.FileInfo]$outFile
+        }
+    }
+}
+
+function Resolve-OutFileName
+{
+    param (
+        [Parameter(Mandatory)]
+        [string]$OutDir,
+
+        [Parameter(Mandatory)]
+        [System.Net.Http.Headers.ContentDispositionHeaderValue]$ContentDisposition
+    )
+    process {
+        $fileName = $ContentDisposition.FileName.Trim('"')
+        (Join-Path -Path $OutDir -ChildPath $fileName).Replace('\', '/')
     }
 }
 
