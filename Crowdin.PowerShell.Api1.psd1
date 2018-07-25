@@ -88,6 +88,10 @@ NestedModules = @(
     '.\Api\Export-Pseudotranslation.ps1'
     '.\Api\Save-Pseudotranslation.ps1'
     '.\Api\Get-Issue.ps1'
+    '.\Api\Export-CostsEstimationReport.ps1'
+    '.\Api\Save-CostsEstimationReport.ps1'
+    '.\Api\Export-TranslationCostsReport.ps1'
+    '.\Api\Save-TranslationCostsReport.ps1'
     '.\Api\Export-TopMembersReport.ps1'
     '.\Api\Save-TopMembersReport.ps1'
 )
@@ -119,6 +123,10 @@ FunctionsToExport = @(
     'Export-Pseudotranslation'
     'Save-Pseudotranslation'
     'Get-Issue'
+    'Export-CostsEstimationReport'
+    'Save-CostsEstimationReport'
+    'Export-TranslationCostsReport'
+    'Save-TranslationCostsReport'
     'Export-TopMembersReport'
     'Save-TopMembersReport'
 )
