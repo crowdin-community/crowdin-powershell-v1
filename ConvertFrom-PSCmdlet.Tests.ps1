@@ -43,36 +43,19 @@ Describe "ConvertFrom-PSCmdlet" {
     }
 
     Context "with parameters" {
-        $params = @{
+        $params = [ordered]@{
             StringParam = 'a'
             IntParam = 7
             BoolParam = $true
             DateTimeParam = Get-Date -Year 1987 -Month 6 -Day 19 -Hour 16 -Minute 7 -Second 0
-            ArrayParam = 'a','b','c','d','e'
-            HashtableParam = @{A = 'a1'; B = 'b2'; C = 'c3'}
+            ArrayParam = 'a','b','c','d',@('e')
+            HashtableParam = [ordered]@{A = 'a1'; B = 'b2'; C = 'c3'; D = @([ordered]@{E = 'ee'; F = 'ff'}, @(17, [ordered]@{X = 'xx'; Y = 'yy'; Z = (get-date)}))}
             NamedParam = 'name'
         }
         $object = Test-ConvertFromPSCmdlet @params
+
         It "generates expected number of properties" {
-            ($object | Get-Member -MemberType NoteProperty).Length | Should -BeExactly 13
-        }
-        It "keeps type of boolean values" {
-            $object.BoolParam | Should -BeOfType [bool]
-        }
-        It "formats date-time to ISO-8601 string" {
-            $object.DateTimeParam | Should -BeExactly '1987-06-19T16:07:00'
-        }
-        It "generates property for each array element" {
-            for ($i = 0; $i -lt $params.ArrayParam.Length; $i++)
-            {
-                $object.("ArrayParam[$i]") | Should -BeExactly $params.ArrayParam[$i]
-            }
-        }
-        It "generates property for each hashtable entry" {
-            foreach ($key in $params.HashtableParam.Keys)
-            {
-                $object.("HashtableParam[$key]") | Should -BeExactly $params.HashtableParam[$key]
-            }
+            ($object | Get-Member -MemberType NoteProperty).Length | Should -BeExactly $params.Count
         }
         It "respects parameter aliases" {
             $object.AliasedParam | Should -BeExactly 'name'
@@ -86,12 +69,14 @@ Describe "ConvertFrom-PSCmdlet" {
         }
         Context "generate property if switch is specified" {
             $object = Test-ConvertFromPSCmdlet -SwitchParam
-            It "'1' for turned on" {
-                $object.SwitchParam | Should -BeExactly 1
+            It "'True' for turned on" {
+                $object.SwitchParam | Should -BeOfType [System.Management.Automation.SwitchParameter]
+                $object.SwitchParam | Should -Be $true
             }
             $object = Test-ConvertFromPSCmdlet -SwitchParam:$false
-            It "'0' for turned off" {
-                $object.SwitchParam | Should -BeExactly 0
+            It "'False' for turned off" {
+                $object.SwitchParam | Should -BeOfType [System.Management.Automation.SwitchParameter]
+                $object.SwitchParam | Should -Be $false
             }
         }
     }
@@ -105,7 +90,7 @@ Describe "ConvertFrom-PSCmdlet" {
         $members = $object | Get-Member -MemberType NoteProperty
         It "does not generate properties for excluded parameters" {
              $members.Length | Should -BeExactly 1
-             $members[0].Name | Should -BeExactly intparam
+             $members[0].Name | Should -BeExactly IntParam
         }
     }
 }

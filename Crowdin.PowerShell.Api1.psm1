@@ -2,6 +2,7 @@ New-Variable ApiBaseUrl -Value ([uri]'https://api.crowdin.com/api/') -Option Con
 New-Variable HttpClient -Value (New-Object System.Net.Http.HttpClient -Property @{BaseAddress=$ApiBaseUrl}) -Option Constant
 
 . .\ConvertFrom-PSCmdlet.ps1
+. .\Format-RequestBody.ps1
 . .\ConvertTo-MultipartFormDataContent.ps1
 
 function Invoke-GetRequest
@@ -27,7 +28,7 @@ function Invoke-PostRequest
         [psobject]$Body
     )
     process {
-        $content = ConvertTo-MultipartFormDataContent -Object $Body
+        $content = $Body | Format-RequestBody | ConvertTo-MultipartFormDataContent
         try {
             $HttpClient.PostAsync($Url, $Content).GetAwaiter().GetResult()
         }
