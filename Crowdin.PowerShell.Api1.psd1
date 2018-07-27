@@ -8,7 +8,7 @@
 RootModule = '.\Crowdin.PowerShell.Api1.psm1'
 
 # Version number of this module.
-ModuleVersion = '0.0.1'
+ModuleVersion = '0.0.9'
 
 # Supported PSEditions
 # CompatiblePSEditions = @()
@@ -23,18 +23,18 @@ Author = 'Crowdin'
 CompanyName = 'Crowdin'
 
 # Copyright statement for this module
-Copyright = '(c) 2017 Crowdin. All rights reserved.'
+Copyright = '(c) 2018 Crowdin. All rights reserved.'
 
 # Description of the functionality provided by this module
 # Description = ''
 
-# Minimum version of the Windows PowerShell engine required by this module
+# Minimum version of the PowerShell engine required by this module
 PowerShellVersion = '4.0'
 
-# Name of the Windows PowerShell host required by this module
+# Name of the PowerShell host required by this module
 # PowerShellHostName = ''
 
-# Minimum version of the Windows PowerShell host required by this module
+# Minimum version of the PowerShell host required by this module
 # PowerShellHostVersion = ''
 
 # Minimum version of Microsoft .NET Framework required by this module. This prerequisite is valid for the PowerShell Desktop edition only.
