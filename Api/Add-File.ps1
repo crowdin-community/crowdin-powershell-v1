@@ -37,7 +37,7 @@ function Add-File
 
         [Parameter()]
         [string]$Scheme,
-        
+
         [Parameter()]
         [string]$Branch,
 

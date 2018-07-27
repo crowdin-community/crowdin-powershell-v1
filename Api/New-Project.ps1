@@ -103,7 +103,7 @@ function New-Project
         [ValidateNotNullOrEmpty()]
         [Alias('identifier')]
         [string]$ProjectId,
-        
+
         [Parameter(Mandatory)]
         [ValidateNotNullOrEmpty()]
         [string]$Name,
