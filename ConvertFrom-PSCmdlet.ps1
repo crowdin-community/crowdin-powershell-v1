@@ -15,8 +15,8 @@ function ConvertFrom-PSCmdlet
     )
 
     process {
-        $myInvocation = $Command.MyInvocation
-        foreach ($boundParameterName in $myInvocation.BoundParameters.Keys)
+        $commandInvocation = $Command.MyInvocation
+        foreach ($boundParameterName in $commandInvocation.BoundParameters.Keys)
         {
             if (($boundParameterName -in $ExcludeParameter) -or
                 ($boundParameterName -in [System.Management.Automation.Cmdlet]::CommonParameters) -or
@@ -24,10 +24,10 @@ function ConvertFrom-PSCmdlet
             {
                 continue
             }
-            $parameter = $myInvocation.MyCommand.Parameters[$boundParameterName]
+            $parameter = $commandInvocation.MyCommand.Parameters[$boundParameterName]
             $parameterAliases = $parameter.Aliases
             $targetName = if ($parameterAliases) { $parameterAliases[0] } else { $boundParameterName }
-            $targetValue = $myInvocation.BoundParameters[$boundParameterName]
+            $targetValue = $commandInvocation.BoundParameters[$boundParameterName]
 
             $TargetObject | Add-Member -NotePropertyName $targetName -NotePropertyValue $targetValue
         }
