@@ -29,7 +29,7 @@ function Invoke-PostRequest
         [psobject]$Body
     )
     process {
-        $content = $Body | Format-RequestBody | ConvertTo-MultipartFormDataContent
+        $content = $Body | ConvertTo-MultipartFormDataContent
         try {
             $HttpClient.PostAsync($Url, $Content).GetAwaiter().GetResult()
         }
@@ -61,7 +61,7 @@ function Invoke-ApiRequest
         }
         else
         {
-            Invoke-PostRequest -Url $Url -Body $Body
+            Invoke-PostRequest -Url $Url -Body (Format-RequestBody -InputObject $Body)
         }
 
         $responseContent = $response.Content
