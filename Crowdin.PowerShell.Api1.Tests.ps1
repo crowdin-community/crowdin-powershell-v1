@@ -11,7 +11,12 @@ Describe "Test API requests" {
     InModuleScope Crowdin.PowerShell.Api1 {
 
         Mock Invoke-GetRequest {
-            $responseContent = New-Object System.Net.Http.StringContent -ArgumentList '"Successful GET."'
+            $request = [PSCustomObject]@{
+                Method = 'GET'
+                Url = $Url
+                Body = $null
+            }
+            $responseContent = New-Object System.Net.Http.StringContent -ArgumentList (ConvertTo-Json $request)
             $responseContent.Headers.ContentType = [System.Net.Http.Headers.MediaTypeHeaderValue]::Parse('application/json')
             New-Object System.Net.Http.HttpResponseMessage -Property @{
                 Content = $responseContent
@@ -19,32 +24,39 @@ Describe "Test API requests" {
         }
 
         Mock Invoke-PostRequest {
-            $responseContent = New-Object System.Net.Http.StringContent -ArgumentList '"Successful POST."'
+            $request = [PSCustomObject]@{
+                Method = 'POST'
+                Url = $Url
+                Body = $Body | ConvertTo-Json -Compress
+            }
+            $responseContent = New-Object System.Net.Http.StringContent -ArgumentList (ConvertTo-Json $request)
             $responseContent.Headers.ContentType = [System.Net.Http.Headers.MediaTypeHeaderValue]::Parse('application/json')
             New-Object System.Net.Http.HttpResponseMessage -Property @{
                 Content = $responseContent
             }
         }
 
-        It 'Send GET Request' {
+        It "Send GET Request" {
             $result = Invoke-ApiRequest -Url 'some-get-url?json'
-            Assert-MockCalled 'Invoke-GetRequest' -Scope It -Times 1 -Exactly -ParameterFilter {
-                $Url -eq ([uri]'some-get-url?json')
-            }
-            $result | Should -BeOfType [string]
-            $result | Should -BeExactly 'Successful GET.'
+            Assert-MockCalled 'Invoke-GetRequest' -Scope It -Times 1 -Exactly
+            $result | Should -BeOfType [PSCustomObject]
+            $result.Method | Should -BeExactly 'GET'
+            $result.Url | Should -BeExactly 'some-get-url?json'
+            $result.Body | Should -BeExactly $null
         }
 
-        It 'Send POST Request' {
+        It "Send POST Request" {
             $requestBody = [pscustomobject]@{
-                key = '0123456789'
+                str = 'value'
+                int = 42
+                bool = $true
             }
             $result = Invoke-ApiRequest -Url 'some-post-url?json' -Body $requestBody
-            Assert-MockCalled 'Invoke-PostRequest' -Scope It -Times 1 -Exactly -ParameterFilter {
-                $Url -eq ([uri]'some-post-url?json')
-            }
-            $result | Should -BeOfType [string]
-            $result | Should -BeExactly 'Successful POST.'
+            Assert-MockCalled 'Invoke-PostRequest' -Scope It -Times 1 -Exactly
+            $result | Should -BeOfType [PSCustomObject]
+            $result.Method | Should -BeExactly 'POST'
+            $result.Url | Should -BeExactly 'some-post-url?json'
+            $result.Body | Should -BeExactly '{"str":"value","int":42,"bool":1}'
         }
     }
 }
