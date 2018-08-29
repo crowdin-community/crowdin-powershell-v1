@@ -1,8 +1,8 @@
 Add-Type -AssemblyName System.Net.Http
 
-$here = Split-Path -Parent $MyInvocation.MyCommand.Path
+$src = $MyInvocation.MyCommand.Path | Split-Path -Parent | Split-Path -Parent | Join-Path -ChildPath 'src'
 $sut = (Split-Path -Leaf $MyInvocation.MyCommand.Path) -replace '\.Tests\.', '.'
-. "$here\$sut"
+. "$src\$sut"
 
 Describe "ConvertTo-MultipartFormDataContent" {
     $testFileName = 'test-file.txt'

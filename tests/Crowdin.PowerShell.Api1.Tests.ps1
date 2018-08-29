@@ -1,7 +1,9 @@
+$src = $MyInvocation.MyCommand.Path | Split-Path -Parent | Split-Path -Parent | Join-Path -ChildPath 'src'
+
 Describe "Test API requests" {
 
     BeforeAll {
-        Import-Module .\Crowdin.PowerShell.Api1.psd1
+        Import-Module "$src\Crowdin.PowerShell.Api1.psd1"
     }
 
     AfterAll {
