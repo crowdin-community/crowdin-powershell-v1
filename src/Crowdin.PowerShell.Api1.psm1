@@ -153,5 +153,6 @@ function Test-ApiResponse
 }
 
 $ExecutionContext.SessionState.Module.OnRemove = {
+    $HttpClient.Dispose()
     Clear-Variable -Name HttpClient
 }
