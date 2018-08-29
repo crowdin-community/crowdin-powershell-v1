@@ -67,7 +67,7 @@ function Invoke-ApiRequest
         $responseContent = $response.Content
         if ($responseContent.Headers.ContentDisposition)
         {
-            Save-File -Content $responseContent -OutDir $OutDir
+            Save-ResponseFile -Content $responseContent -OutDir $OutDir
         }
         else
         {
@@ -76,7 +76,7 @@ function Invoke-ApiRequest
     }
 }
 
-function Save-File
+function Save-ResponseFile
 {
     param (
         [Parameter(Mandatory)]

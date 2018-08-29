@@ -1,4 +1,4 @@
-function Export-File
+function Save-File
 {
     [CmdletBinding()]
     param (
@@ -29,10 +29,13 @@ function Export-File
 
         [Parameter()]
         [Alias('export_approved_only')]
-        [switch]$ApprovedOnly
+        [switch]$ApprovedOnly,
+
+        [Parameter()]
+        [string]$OutDir = (Get-Location)
     )
 
     $ProjectId = [Uri]::EscapeDataString($ProjectId)
     $body = $PSCmdlet | ConvertFrom-PSCmdlet -ExcludeParameter ProjectId
-    Invoke-ApiRequest -Url "project/$ProjectId/export-file?json" -Body $body
+    Invoke-ApiRequest -Url "project/$ProjectId/export-file?json" -Body $body -OutDir $OutDir
 }
