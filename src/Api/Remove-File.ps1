@@ -23,7 +23,7 @@ Remove-CrowdinFile -ProjectId apitestproject -ProjectKey 2b680...ce586 -FileName
 #>
 function Remove-File
 {
-    [CmdletBinding()]
+    [CmdletBinding(SupportsShouldProcess)]
     param (
         [Parameter(Mandatory)]
         [ValidateNotNullOrEmpty()]

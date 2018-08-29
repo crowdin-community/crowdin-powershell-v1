@@ -16,7 +16,7 @@ PS C:\> Measure-CrowdinProject -ProjectId apitestproject -ProjectKey 2b680...ce5
 #>
 function Measure-Project
 {
-    [CmdletBinding()]
+    [CmdletBinding(SupportsShouldProcess)]
     param (
         [Parameter(Mandatory)]
         [Alias('identifier')]

@@ -1,6 +1,6 @@
 function Save-Glossary
 {
-    [CmdletBinding()]
+    [CmdletBinding(SupportsShouldProcess)]
     param (
         [Parameter(Mandatory)]
         [string]$ProjectId,

@@ -20,7 +20,7 @@ osx_locale   : uk
 #>
 function Get-SupportedLanguage
 {
-    [CmdletBinding()]
+    [CmdletBinding(SupportsShouldProcess)]
     param ()
 
     Invoke-ApiRequest -Url 'supported-languages?json'

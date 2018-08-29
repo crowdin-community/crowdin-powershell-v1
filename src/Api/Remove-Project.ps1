@@ -17,7 +17,7 @@ Remove-CrowdinProject -ProjectId apitestproject -ProjectKey 2b680...ce586
 #>
 function Remove-Project
 {
-    [CmdletBinding()]
+    [CmdletBinding(SupportsShouldProcess)]
     param (
         [Parameter(Mandatory)]
         [Alias('identifier')]

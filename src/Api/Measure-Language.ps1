@@ -22,7 +22,7 @@ General notes
 #>
 function Measure-Language
 {
-    [CmdletBinding()]
+    [CmdletBinding(SupportsShouldProcess)]
     param (
         [Parameter(Mandatory)]
         [Alias('identifier')]

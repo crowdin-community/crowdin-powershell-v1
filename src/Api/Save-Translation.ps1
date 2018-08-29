@@ -1,6 +1,6 @@
 function Save-Translation
 {
-    [CmdletBinding()]
+    [CmdletBinding(SupportsShouldProcess)]
     param (
         [Parameter(Mandatory)]
         [string]$ProjectId,

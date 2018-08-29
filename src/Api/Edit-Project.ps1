@@ -74,7 +74,7 @@ PS C:\> Edit-CrowdinProject -ProjectId apitestproject -ProjectKey 2b680...ce586
 #>
 function Edit-Project
 {
-    [CmdletBinding()]
+    [CmdletBinding(SupportsShouldProcess)]
     param (
         [Parameter(Mandatory)]
         [ValidateNotNullOrEmpty()]

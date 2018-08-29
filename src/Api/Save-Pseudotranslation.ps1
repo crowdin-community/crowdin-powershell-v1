@@ -1,6 +1,6 @@
 function Save-Pseudotranslation
 {
-    [CmdletBinding()]
+    [CmdletBinding(SupportsShouldProcess)]
     param (
         [Parameter(Mandatory)]
         [string]$ProjectId,

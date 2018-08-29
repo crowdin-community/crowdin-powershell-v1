@@ -87,7 +87,7 @@ PS C:\> New-CrowdinProject -LoginName yurko7 -AccountKey 1978a...f9f54
 #>
 function New-Project
 {
-    [CmdletBinding()]
+    [CmdletBinding(SupportsShouldProcess)]
     param (
         [Parameter(Mandatory)]
         [ValidateNotNullOrEmpty()]

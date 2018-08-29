@@ -33,7 +33,7 @@ invite_url              : @{translator=https://crowdin.com/project/apitestprojec
 #>
 function Get-Project
 {
-    [CmdletBinding()]
+    [CmdletBinding(SupportsShouldProcess)]
     param (
         [Parameter(Mandatory)]
         [Alias('identifier')]

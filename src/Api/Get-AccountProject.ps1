@@ -29,7 +29,7 @@ key          : 2b680...ce586
 #>
 function Get-AccountProject
 {
-    [CmdletBinding()]
+    [CmdletBinding(SupportsShouldProcess)]
     param (
         [Parameter(Mandatory)]
         [Alias('login')]
