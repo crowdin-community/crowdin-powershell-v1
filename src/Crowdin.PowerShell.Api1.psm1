@@ -71,7 +71,7 @@ function Invoke-ApiRequest
         }
         else
         {
-            Read-Response -Content $responseContent | Test-Response
+            Read-Response -Content $responseContent | Test-ApiResponse
         }
     }
 }
@@ -137,14 +137,14 @@ function Resolve-OutFileName
     }
 }
 
-function Test-Response
+function Test-ApiResponse
 {
     param (
         [Parameter(Mandatory, ValueFromPipeline)]
         $Response
     )
     process {
-        if ((Get-Member -InputObject $Response -Name 'Error' -MemberType NoteProperty) -and (-not $Response.Success))
+        if ((-not $Response.Success) -and (Get-Member -InputObject $Response -Name 'Error' -MemberType NoteProperty))
         {
             throw $Response.Error
         }
