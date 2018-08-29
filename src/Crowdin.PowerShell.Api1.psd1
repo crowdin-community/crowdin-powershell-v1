@@ -29,7 +29,7 @@ Copyright = '(c) 2018 Crowdin. All rights reserved.'
 # Description = ''
 
 # Minimum version of the PowerShell engine required by this module
-PowerShellVersion = '4.0'
+PowerShellVersion = '5.0'
 
 # Name of the PowerShell host required by this module
 # PowerShellHostName = ''
