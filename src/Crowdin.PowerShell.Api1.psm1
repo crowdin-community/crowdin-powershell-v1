@@ -6,39 +6,6 @@ $here = Split-Path -Parent $MyInvocation.MyCommand.Path
 . "$here/Format-RequestBody.ps1"
 . "$here/ConvertTo-MultipartFormDataContent.ps1"
 
-function Invoke-GetRequest
-{
-    [OutputType([System.Net.Http.HttpResponseMessage])]
-    param (
-        [Parameter(Mandatory)]
-        [uri]$Url
-    )
-    process {
-        $HttpClient.GetAsync($Url).GetAwaiter().GetResult()
-    }
-}
-
-function Invoke-PostRequest
-{
-    [OutputType([System.Net.Http.HttpResponseMessage])]
-    param (
-        [Parameter(Mandatory)]
-        [uri]$Url,
-
-        [Parameter(Mandatory)]
-        [psobject]$Body
-    )
-    process {
-        $content = $Body | ConvertTo-MultipartFormDataContent
-        try {
-            $HttpClient.PostAsync($Url, $Content).GetAwaiter().GetResult()
-        }
-        finally {
-            $content.Dispose()
-        }
-    }
-}
-
 function Invoke-ApiRequest
 {
     [CmdletBinding(DefaultParameterSetName='GET')]
@@ -51,32 +18,92 @@ function Invoke-ApiRequest
         [psobject]$Body,
 
         [Parameter()]
-        [string]$OutDir
+        [string]$OutDir,
+
+        [Parameter()]
+        [string]$EntityTag
     )
 
     process {
-        $response = if ($PSCmdlet.ParameterSetName -eq 'GET')
+        $request = if ($PSCmdlet.ParameterSetName -eq 'GET')
         {
-            Invoke-GetRequest -Url $Url
+            New-Object System.Net.Http.HttpRequestMessage -ArgumentList @([System.Net.Http.HttpMethod]::Get, $Url)
         }
         else
         {
-            Invoke-PostRequest -Url $Url -Body (Format-RequestBody -InputObject $Body)
+            $content = $Body | Format-RequestBody | ConvertTo-MultipartFormDataContent
+            New-Object System.Net.Http.HttpRequestMessage -ArgumentList @([System.Net.Http.HttpMethod]::Post, $Url) -Property @{Content=$content}
+        }
+        if ($EntityTag)
+        {
+            [void]$request.Headers.TryAddWithoutValidation('If-None-Match', $EntityTag)
         }
 
-        $responseContent = $response.Content
-        if ($responseContent.Headers.ContentDisposition)
-        {
-            Save-ResponseFile -Content $responseContent -OutDir $OutDir
-        }
-        else
-        {
-            Read-Response -Content $responseContent | Test-ApiResponse
-        }
+        $request | Send-ApiRequest | Receive-ApiResponse -OutDir $OutDir
     }
 }
 
-function Save-ResponseFile
+function Send-ApiRequest
+{
+    [OutputType([System.Net.Http.HttpResponseMessage])]
+    param (
+        [Parameter(Mandatory, ValueFromPipeline)]
+        [System.Net.Http.HttpRequestMessage]$Request
+    )
+    process {
+        $HttpClient.SendAsync($Request).GetAwaiter().GetResult()
+    }
+}
+
+function Receive-ApiResponse
+{
+    param (
+        [Parameter(Mandatory, ValueFromPipeline)]
+        [System.Net.Http.HttpResponseMessage]$Response,
+
+        [Parameter()]
+        [string]$OutDir
+    )
+    process {
+        $result = if ($Response.StatusCode -eq [System.Net.HttpStatusCode]::NotModified)
+        {
+            [PSCustomObject]@{ Success = $true }
+        }
+        elseif ($Response.Content.Headers.ContentDisposition)
+        {
+            Save-ApiResponse -Content $Response.Content -OutDir $OutDir
+        }
+        else
+        {
+            Read-ApiResponse -Content $Response.Content | Test-ApiResponse
+        }
+
+        $etag = $null
+        if ($Response.Headers.TryGetValues('ETag', [ref]$etag))
+        {
+            Add-Member -InputObject $result -NotePropertyName 'EntityTag' -NotePropertyValue $etag[0]
+        }
+        $result
+    }
+}
+
+function Read-ApiResponse
+{
+    param (
+        [Parameter(Mandatory)]
+        [System.Net.Http.HttpContent]$Content
+    )
+    process {
+        if ($Content.Headers.ContentType.MediaType -ne 'application/json')
+        {
+            throw "Only JSON content is acceptable."
+        }
+        $json = $Content.ReadAsStringAsync().GetAwaiter().GetResult()
+        ConvertFrom-Json -InputObject $json
+    }
+}
+
+function Save-ApiResponse
 {
     param (
         [Parameter(Mandatory)]
@@ -106,22 +133,6 @@ function Save-ResponseFile
     }
 }
 
-function Read-Response
-{
-    param (
-        [Parameter(Mandatory)]
-        [System.Net.Http.HttpContent]$Content
-    )
-    process {
-        if ($Content.Headers.ContentType.MediaType -ne 'application/json')
-        {
-            throw "Only JSON content is acceptable."
-        }
-        $json = $Content.ReadAsStringAsync().GetAwaiter().GetResult()
-        ConvertFrom-Json -InputObject $json
-    }
-}
-
 function Resolve-OutFileName
 {
     param (
@@ -133,7 +144,7 @@ function Resolve-OutFileName
     )
     process {
         $fileName = $ContentDisposition.FileName.Trim('"')
-        (Join-Path -Path $OutDir -ChildPath $fileName).Replace('\', '/')
+        [IO.Path]::Combine($OutDir, $fileName).Replace([IO.Path]::AltDirectorySeparatorChar, [IO.Path]::DirectorySeparatorChar)
     }
 }
 

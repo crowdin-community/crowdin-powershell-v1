@@ -12,26 +12,17 @@ Describe "Test API requests" {
 
     InModuleScope Crowdin.PowerShell.Api1 {
 
-        Mock Invoke-GetRequest {
-            $request = [PSCustomObject]@{
-                Method = 'GET'
-                Url = $Url
-                Body = $null
+        Mock Send-ApiRequest {
+            $requestSnapshot = [PSCustomObject]@{
+                Method = $Request.Method.ToString()
+                Url = $Request.RequestUri
+                Content = if ($Request.Content) {
+                    ($Request.Content | Foreach-Object {"$($_.Headers.ContentDisposition.Name)=$($_.ReadAsStringAsync().GetAwaiter().GetResult())"} | Sort-Object) -join "|"
+                } else {
+                    $null
+                }
             }
-            $responseContent = New-Object System.Net.Http.StringContent -ArgumentList (ConvertTo-Json $request)
-            $responseContent.Headers.ContentType = [System.Net.Http.Headers.MediaTypeHeaderValue]::Parse('application/json')
-            New-Object System.Net.Http.HttpResponseMessage -Property @{
-                Content = $responseContent
-            }
-        }
-
-        Mock Invoke-PostRequest {
-            $request = [PSCustomObject]@{
-                Method = 'POST'
-                Url = $Url
-                Body = $Body | ConvertTo-Json -Compress
-            }
-            $responseContent = New-Object System.Net.Http.StringContent -ArgumentList (ConvertTo-Json $request)
+            $responseContent = New-Object System.Net.Http.StringContent -ArgumentList (ConvertTo-Json $requestSnapshot)
             $responseContent.Headers.ContentType = [System.Net.Http.Headers.MediaTypeHeaderValue]::Parse('application/json')
             New-Object System.Net.Http.HttpResponseMessage -Property @{
                 Content = $responseContent
@@ -42,11 +33,11 @@ Describe "Test API requests" {
 
             It "Send GET request if called without body" {
                 $result = Invoke-ApiRequest -Url 'some-get-url?json'
-                Assert-MockCalled 'Invoke-GetRequest' -Scope It -Times 1 -Exactly
+                Assert-MockCalled 'Send-ApiRequest' -Scope It -Times 1 -Exactly
                 $result | Should -BeOfType [PSCustomObject]
                 $result.Method | Should -BeExactly 'GET'
                 $result.Url | Should -BeExactly 'some-get-url?json'
-                $result.Body | Should -BeExactly $null
+                $result.Content | Should -BeExactly $null
             }
 
             It "Send POST request if called with body" {
@@ -56,11 +47,11 @@ Describe "Test API requests" {
                     bool = $true
                 }
                 $result = Invoke-ApiRequest -Url 'some-post-url?json' -Body $requestBody
-                Assert-MockCalled 'Invoke-PostRequest' -Scope It -Times 1 -Exactly
+                Assert-MockCalled 'Send-ApiRequest' -Scope It -Times 1 -Exactly
                 $result | Should -BeOfType [PSCustomObject]
                 $result.Method | Should -BeExactly 'POST'
                 $result.Url | Should -BeExactly 'some-post-url?json'
-                $result.Body | Should -BeExactly '{"str":"value","int":42,"bool":1}'
+                $result.Content | Should -BeExactly 'bool=1|int=42|str=value'
             }
         }
 
