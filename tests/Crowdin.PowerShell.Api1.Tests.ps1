@@ -7,51 +7,120 @@ Describe "Test API requests" {
     }
 
     AfterAll {
-        Remove-Module Crowdin.PowerShell.Api1
+        Remove-Module 'Crowdin.PowerShell.Api1'
     }
 
-    InModuleScope Crowdin.PowerShell.Api1 {
-
-        Mock Send-ApiRequest {
-            $requestSnapshot = [PSCustomObject]@{
-                Method = $Request.Method.ToString()
-                Url = $Request.RequestUri
-                Content = if ($Request.Content) {
-                    ($Request.Content | Foreach-Object {"$($_.Headers.ContentDisposition.Name)=$($_.ReadAsStringAsync().GetAwaiter().GetResult())"} | Sort-Object) -join "|"
-                } else {
-                    $null
-                }
-            }
-            $responseContent = New-Object System.Net.Http.StringContent -ArgumentList (ConvertTo-Json $requestSnapshot)
-            $responseContent.Headers.ContentType = [System.Net.Http.Headers.MediaTypeHeaderValue]::Parse('application/json')
-            New-Object System.Net.Http.HttpResponseMessage -Property @{
-                Content = $responseContent
-            }
-        }
+    InModuleScope 'Crowdin.PowerShell.Api1' {
 
         Context "Invoke-ApiRequest" {
 
-            It "Send GET request if called without body" {
-                $result = Invoke-ApiRequest -Url 'some-get-url?json'
-                Assert-MockCalled 'Send-ApiRequest' -Scope It -Times 1 -Exactly
-                $result | Should -BeOfType [PSCustomObject]
-                $result.Method | Should -BeExactly 'GET'
-                $result.Url | Should -BeExactly 'some-get-url?json'
-                $result.Content | Should -BeExactly $null
+            Mock -ModuleName 'Crowdin.PowerShell.Api1' -CommandName 'Send-ApiRequest' -MockWith {
+                $responseContent = New-Object System.Net.Http.StringContent -ArgumentList @('{"success":true,"sentinel":"1N73LL1G3NC3"}')
+                $responseContent.Headers.ContentType = [System.Net.Http.Headers.MediaTypeHeaderValue]::Parse('application/json')
+                New-Object System.Net.Http.HttpResponseMessage -ArgumentList @([System.Net.HttpStatusCode]::NonAuthoritativeInformation) -Property @{
+                    RequestMessage = $Request
+                    ReasonPhrase = "Mock"
+                    Content = $responseContent
+                }
+            } -ParameterFilter {
+                $Request.RequestUri -eq [uri]'resource/success?json'
             }
 
-            It "Send POST request if called with body" {
-                $requestBody = [pscustomobject]@{
-                    str = 'value'
-                    int = 42
-                    bool = $true
+            Mock -ModuleName 'Crowdin.PowerShell.Api1' -CommandName 'Send-ApiRequest' -MockWith {
+                $responseContent = New-Object System.Net.Http.StringContent -ArgumentList @('{"success":true,"sentinel":"1N73LL1G3NC3"}')
+                $responseContent.Headers.ContentType = [System.Net.Http.Headers.MediaTypeHeaderValue]::Parse('application/json')
+                $response = New-Object System.Net.Http.HttpResponseMessage -ArgumentList @([System.Net.HttpStatusCode]::NonAuthoritativeInformation) -Property @{
+                    RequestMessage = $Request
+                    ReasonPhrase = "Mock"
+                    Content = $responseContent
                 }
-                $result = Invoke-ApiRequest -Url 'some-post-url?json' -Body $requestBody
-                Assert-MockCalled 'Send-ApiRequest' -Scope It -Times 1 -Exactly
+                [void]$response.Headers.TryAddWithoutValidation('ETag', '4D4P7 70 CH4NG35')
+                $response
+            } -ParameterFilter {
+                $Request.RequestUri -eq [uri]'resource/success/etag?json'
+            }
+
+            It "send GET request if called without body" {
+                $result = Invoke-ApiRequest -Url 'resource/success?json'
+                Assert-MockCalled 'Send-ApiRequest' -Scope It -Times 1 -Exactly -ParameterFilter {
+                    $Request.Method -eq [System.Net.Http.HttpMethod]::Get -and
+                    $Request.RequestUri -eq [uri]'resource/success?json'
+                }
                 $result | Should -BeOfType [PSCustomObject]
-                $result.Method | Should -BeExactly 'POST'
-                $result.Url | Should -BeExactly 'some-post-url?json'
-                $result.Content | Should -BeExactly 'bool=1|int=42|str=value'
+                $result.Success | Should -BeTrue
+                $result.Sentinel | Should -BeExactly '1N73LL1G3NC3'
+            }
+
+            It "send POST request if called with body" {
+                $requestBody = [pscustomobject]@{ str = 'value'; int = 42; bool = $true }
+                $result = Invoke-ApiRequest -Url 'resource/success?json' -Body $requestBody
+                Assert-MockCalled 'Send-ApiRequest' -Scope It -Times 1 -Exactly -ParameterFilter {
+                    $Request.Method -eq [System.Net.Http.HttpMethod]::Post -and
+                    $Request.RequestUri -eq [uri]'resource/success?json'
+                }
+                $result | Should -BeOfType [PSCustomObject]
+                $result.Success | Should -BeTrue
+                $result.Sentinel | Should -BeExactly '1N73LL1G3NC3'
+            }
+
+            Context "if called with -EntityTag, adds 'If-None-Match' header" {
+
+                It "to GET request" {
+                    $result = Invoke-ApiRequest -Url 'resource/success?json' -EntityTag '4B1L17Y'
+                    Assert-MockCalled 'Send-ApiRequest' -Scope It -Times 1 -Exactly -ParameterFilter {
+                        $ifNoneMatch = $null
+                        $Request.Method -eq [System.Net.Http.HttpMethod]::Get -and
+                        $Request.RequestUri -eq [uri]'resource/success?json' -and
+                        $Request.Headers.TryGetValues('If-None-Match', [ref]$ifNoneMatch) -and
+                        $ifNoneMatch[0] -eq '4B1L17Y'
+                    }
+                    $result | Should -BeOfType [PSCustomObject]
+                    $result.Success | Should -BeTrue
+                    $result.Sentinel | Should -BeExactly '1N73LL1G3NC3'
+                }
+
+                It "to POST request" {
+                    $requestBody = [pscustomobject]@{ str = 'value'; int = 42; bool = $true }
+                    $result = Invoke-ApiRequest -Url 'resource/success?json' -Body $requestBody -EntityTag '4B1L17Y'
+                    Assert-MockCalled 'Send-ApiRequest' -Scope It -Times 1 -Exactly -ParameterFilter {
+                        $ifNoneMatch = $null
+                        $Request.Method -eq [System.Net.Http.HttpMethod]::Post -and
+                        $Request.RequestUri -eq [uri]'resource/success?json' -and
+                        $Request.Headers.TryGetValues('If-None-Match', [ref]$ifNoneMatch) -and
+                        $ifNoneMatch[0] -eq '4B1L17Y'
+                    }
+                    $result | Should -BeOfType [PSCustomObject]
+                    $result.Success | Should -BeTrue
+                    $result.Sentinel | Should -BeExactly '1N73LL1G3NC3'
+                }
+            }
+
+            Context "inject value of 'ETag' response header as EntityTag member of result" {
+
+                It "of GET request" {
+                    $result = Invoke-ApiRequest -Url 'resource/success/etag?json'
+                    Assert-MockCalled 'Send-ApiRequest' -Scope It -Times 1 -Exactly -ParameterFilter {
+                        $Request.Method -eq [System.Net.Http.HttpMethod]::Get -and
+                        $Request.RequestUri -eq [uri]'resource/success/etag?json'
+                    }
+                    $result | Should -BeOfType [PSCustomObject]
+                    $result.Success | Should -BeTrue
+                    $result.Sentinel | Should -BeExactly '1N73LL1G3NC3'
+                    $result.EntityTag | Should -BeExactly '4D4P7 70 CH4NG35'
+                }
+
+                It "of POST request" {
+                    $requestBody = [pscustomobject]@{ str = 'value'; int = 42; bool = $true }
+                    $result = Invoke-ApiRequest -Url 'resource/success/etag?json' -Body $requestBody
+                    Assert-MockCalled 'Send-ApiRequest' -Scope It -Times 1 -Exactly -ParameterFilter {
+                        $Request.Method -eq [System.Net.Http.HttpMethod]::Post -and
+                        $Request.RequestUri -eq [uri]'resource/success/etag?json'
+                    }
+                    $result | Should -BeOfType [PSCustomObject]
+                    $result.Success | Should -BeTrue
+                    $result.Sentinel | Should -BeExactly '1N73LL1G3NC3'
+                    $result.EntityTag | Should -BeExactly '4D4P7 70 CH4NG35'
+                }
             }
         }
 
