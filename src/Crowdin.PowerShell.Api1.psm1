@@ -1,6 +1,3 @@
-New-Variable ApiBaseUrl -Value ([uri]'https://api.crowdin.com/api/') -Option Constant
-New-Variable HttpClient -Value (New-Object System.Net.Http.HttpClient -Property @{BaseAddress=$ApiBaseUrl}) -Option Constant
-
 $here = Split-Path -Parent $MyInvocation.MyCommand.Path
 . "$here/ConvertFrom-PSCmdlet.ps1"
 . "$here/Format-RequestBody.ps1"

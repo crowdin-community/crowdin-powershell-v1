@@ -63,6 +63,7 @@ RequiredAssemblies = @('System.Net.Http')
 
 # Modules to import as nested modules of the module specified in RootModule/ModuleToProcess
 NestedModules = @(
+    'Initialize-HttpClient.ps1'
     'Api\Get-SupportedLanguage.ps1'
     'Api\Get-AccountProject.ps1'
     'Api\New-Project.ps1'

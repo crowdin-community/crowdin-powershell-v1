@@ -3,14 +3,24 @@ $src = $MyInvocation.MyCommand.Path | Split-Path -Parent | Split-Path -Parent | 
 Describe "Test API requests" {
 
     BeforeAll {
-        Import-Module "$src\Crowdin.PowerShell.Api1.psd1"
+        $Global:moduleUnderTest = Import-Module "$src\Crowdin.PowerShell.Api1.psd1" -PassThru
     }
 
     AfterAll {
-        Remove-Module 'Crowdin.PowerShell.Api1'
+        Remove-Module -ModuleInfo $Global:moduleUnderTest
+        Remove-Variable -Name moduleUnderTest -Scope Global
     }
 
     InModuleScope 'Crowdin.PowerShell.Api1' {
+
+        Context "HttpClient" {
+
+            It "Has valid default User-Agent header" {
+                $ua = $HttpClient.DefaultRequestHeaders.UserAgent
+                $ua.Product.Name | Should -BeExactly @($moduleUnderTest.Name, $PSVersionTable.PSEdition)
+                $ua.Product.Version | Should -BeExactly @($moduleUnderTest.Version, $PSVersionTable.PSVersion)
+            }
+        }
 
         Context "Invoke-ApiRequest" {
 
