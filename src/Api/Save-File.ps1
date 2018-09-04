@@ -32,10 +32,13 @@ function Save-File
         [switch]$ApprovedOnly,
 
         [Parameter()]
-        [string]$OutDir = (Get-Location)
+        [string]$OutDir = (Get-Location),
+
+        [Parameter()]
+        [string]$EntityTag
     )
 
     $ProjectId = [Uri]::EscapeDataString($ProjectId)
     $body = $PSCmdlet | ConvertFrom-PSCmdlet -ExcludeParameter ProjectId
-    Invoke-ApiRequest -Url "project/$ProjectId/export-file?json" -Body $body -OutDir $OutDir
+    Invoke-ApiRequest -Url "project/$ProjectId/export-file?json" -Body $body -OutDir $OutDir -EntityTag $EntityTag
 }
