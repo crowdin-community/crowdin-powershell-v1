@@ -1,4 +1,4 @@
-Add-Type -TypeDefinition @'
+$apiMessageHandlerBaseTypeOptions = @{ TypeDefinition = @'
 namespace Crowdin.PowerShell.Api1.Http
 {
     using System.Net.Http;
@@ -24,4 +24,11 @@ namespace Crowdin.PowerShell.Api1.Http
         protected abstract HttpResponseMessage OnResponseReceived(HttpRequestMessage request, HttpResponseMessage response);
     }
 }
-'@
+'@ }
+if ($PSVersionTable.PSVersion.Major -lt 6)
+{
+    $apiMessageHandlerBaseTypeOptions.ReferencedAssemblies = 'System.Net.Http'
+    $apiMessageHandlerBaseTypeOptions.WarningAction = 'SilentlyContinue'
+}
+Add-Type @apiMessageHandlerBaseTypeOptions
+Remove-Variable -Name apiMessageHandlerBaseTypeOptions
