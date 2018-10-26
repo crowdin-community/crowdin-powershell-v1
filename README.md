@@ -28,6 +28,7 @@ Cmdlet | API
 `Invoke-Pretranslation` | [Pre-Translate](https://support.crowdin.com/api/pre-translate/)
 `Add-Translation` | [Upload Translation](https://support.crowdin.com/api/upload-translation/)
 `Export-Translation` | [Export Translations](https://support.crowdin.com/api/export/)
+`Measure-TranslationExport` | [Translation Export Status](https://support.crowdin.com/api/export-status/)
 `Save-Translation` | [Download Translations](https://support.crowdin.com/api/download/)
 `Export-Pseudotranslation` | [Pseudo Export](https://support.crowdin.com/api/pseudo-export/)
 `Save-Pseudotranslation` | [Pseudo Download](https://support.crowdin.com/api/pseudo-download/)
