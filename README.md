@@ -17,7 +17,7 @@ Cmdlet | API
 `Add-File` | [Add File](https://support.crowdin.com/api/add-file/)
 `Update-File` | [Update File](https://support.crowdin.com/api/update-file/)
 `Remove-File` | [Delete File](https://support.crowdin.com/api/delete-file/)
-`Export-File` | [Export File](https://support.crowdin.com/api/export-file/)
+`Save-File` | [Export File](https://support.crowdin.com/api/export-file/)
 `New-Folder` | [Add Directory](https://support.crowdin.com/api/add-directory/)
 `Edit-Folder` | [Change Directory](https://support.crowdin.com/api/change-directory/)
 `Remove-Folder` | [Delete Directory](https://support.crowdin.com/api/delete-directory/)
