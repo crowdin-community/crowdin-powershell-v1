@@ -61,7 +61,7 @@ function Format-RequestBody
                 $members = [ordered]@{}
                 foreach ($member in ($Value | Get-Member -MemberType NoteProperty))
                 {
-                    $values = Format-Member "[$($member.Name)]" $Object.($member.Name)
+                    $values = Format-Member "[$($member.Name)]" $Value.($member.Name)
                     foreach ($subKey in $values.Keys)
                     {
                         $members.Add($subKey, $values[$subKey])
