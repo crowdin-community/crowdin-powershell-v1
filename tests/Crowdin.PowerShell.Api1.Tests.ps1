@@ -37,6 +37,18 @@ Describe "Test API requests" {
             }
 
             Mock -ModuleName 'Crowdin.PowerShell.Api1' -CommandName 'Send-ApiRequest' -MockWith {
+                $responseContent = New-Object System.Net.Http.StringContent -ArgumentList @('PL41N 73X7')
+                $responseContent.Headers.ContentType = [System.Net.Http.Headers.MediaTypeHeaderValue]::Parse('text/plain')
+                New-Object System.Net.Http.HttpResponseMessage -ArgumentList @([System.Net.HttpStatusCode]::NonAuthoritativeInformation) -Property @{
+                    RequestMessage = $Request
+                    ReasonPhrase = "Mock"
+                    Content = $responseContent
+                }
+            } -ParameterFilter {
+                $Request.RequestUri -eq [uri]'resource/success?txt'
+            }
+
+            Mock -ModuleName 'Crowdin.PowerShell.Api1' -CommandName 'Send-ApiRequest' -MockWith {
                 New-Object System.Net.Http.HttpResponseMessage -ArgumentList @([System.Net.HttpStatusCode]::NotModified) -Property @{
                     RequestMessage = $Request
                     ReasonPhrase = "Mock"
@@ -91,6 +103,14 @@ Describe "Test API requests" {
                 $result | Should -BeOfType [PSCustomObject]
                 $result.Success | Should -BeTrue
                 $result.Sentinel | Should -BeExactly '1N73LL1G3NC3'
+            }
+
+            It "accepts only JSON response content" {
+                { Invoke-ApiRequest -Url 'resource/success?txt' } | Should -Throw "Only JSON content is acceptable."
+                Assert-MockCalled 'Send-ApiRequest' -Scope It -Times 1 -Exactly -ParameterFilter {
+                    $Request.Method -eq [System.Net.Http.HttpMethod]::Get -and
+                    $Request.RequestUri -eq [uri]'resource/success?txt'
+                }
             }
 
             Context "if called with -EntityTag, adds 'If-None-Match' header" {
