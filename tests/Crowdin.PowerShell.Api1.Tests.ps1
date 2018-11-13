@@ -82,6 +82,19 @@ Describe "Test API requests" {
                 $Request.RequestUri -eq [uri]'resource/not-modified/etag?json'
             }
 
+            Mock -ModuleName 'Crowdin.PowerShell.Api1' -CommandName 'Send-ApiRequest' -MockWith {
+                $responseContent = New-Object System.Net.Http.StringContent -ArgumentList @('F1L3 C0N73N7')
+                $responseContent.Headers.ContentType = [System.Net.Http.Headers.MediaTypeHeaderValue]::Parse('text/plain')
+                $responseContent.Headers.ContentDisposition = [System.Net.Http.Headers.ContentDispositionHeaderValue]::Parse('attachment; filename="dowloaded.txt"')
+                New-Object System.Net.Http.HttpResponseMessage -ArgumentList @([System.Net.HttpStatusCode]::NonAuthoritativeInformation) -Property @{
+                    RequestMessage = $Request
+                    ReasonPhrase = "Mock"
+                    Content = $responseContent
+                }
+            } -ParameterFilter {
+                $Request.RequestUri -eq [uri]'resource/file'
+            }
+
             It "send GET request if called without body" {
                 $result = Invoke-ApiRequest -Url 'resource/success?json'
                 Assert-MockCalled 'Send-ApiRequest' -Scope It -Times 1 -Exactly -ParameterFilter {
@@ -111,6 +124,20 @@ Describe "Test API requests" {
                     $Request.Method -eq [System.Net.Http.HttpMethod]::Get -and
                     $Request.RequestUri -eq [uri]'resource/success?txt'
                 }
+            }
+
+            It "saves downloaded file to specified directory" {
+                $result = Invoke-ApiRequest -Url 'resource/file' -OutDir $TestDrive
+                Assert-MockCalled 'Send-ApiRequest' -Scope It -Times 1 -Exactly -ParameterFilter {
+                    $Request.Method -eq [System.Net.Http.HttpMethod]::Get -and
+                    $Request.RequestUri -eq [uri]'resource/file'
+                }
+                $result | Should -BeOfType [PSCustomObject]
+                $result.Success | Should -BeTrue
+                $result.File | Should -BeOfType [System.IO.FileInfo]
+                $expectedFileName = "$TestDrive\dowloaded.txt"
+                $result.File.FullName | Should -BeExactly $expectedFileName
+                Get-Content -LiteralPath $expectedFileName -Raw | Should -BeExactly 'F1L3 C0N73N7'
             }
 
             Context "if called with -EntityTag, adds 'If-None-Match' header" {
