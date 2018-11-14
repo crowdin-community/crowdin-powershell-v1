@@ -55,6 +55,5 @@ function Export-TranslationCostsReport
 
     $ProjectId = [Uri]::EscapeDataString($ProjectId)
     $body = $PSCmdlet | ConvertFrom-PSCmdlet -ExcludeParameter ProjectId
-    $response = Invoke-ApiRequest -Url "project/$ProjectId/reports/translation-costs/export?json" -Body $body
-    $response.Hash
+    Invoke-ApiRequest -Url "project/$ProjectId/reports/translation-costs/export?json" -Body $body
 }

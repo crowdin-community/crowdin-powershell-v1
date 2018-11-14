@@ -22,6 +22,5 @@ function Save-CostsEstimationReport
     $ProjectId = [Uri]::EscapeDataString($ProjectId)
     $ProjectKey = [Uri]::EscapeDataString($ProjectKey)
     $Hash = [Uri]::EscapeDataString($Hash)
-    $response = Invoke-ApiRequest -Url "project/$ProjectId/reports/costs-estimation/download?json&key=$ProjectKey&hash=$Hash" -OutDir $OutDir
-    $response.File
+    Invoke-ApiRequest -Url "project/$ProjectId/reports/costs-estimation/download?json&key=$ProjectKey&hash=$Hash" -OutDir $OutDir
 }

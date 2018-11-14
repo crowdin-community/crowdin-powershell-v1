@@ -27,6 +27,5 @@ function Save-TranslationMemory
 
     $ProjectId = [Uri]::EscapeDataString($ProjectId)
     $body = $PSCmdlet | ConvertFrom-PSCmdlet -ExcludeParameter ProjectId
-    $response = Invoke-ApiRequest -Url "project/$ProjectId/download-tm?json" -Body $body -OutDir $OutDir
-    $response.File
+    Invoke-ApiRequest -Url "project/$ProjectId/download-tm?json" -Body $body -OutDir $OutDir
 }

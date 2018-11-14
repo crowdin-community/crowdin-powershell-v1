@@ -15,6 +15,5 @@ function Save-Pseudotranslation
 
     $ProjectId = [Uri]::EscapeDataString($ProjectId)
     $ProjectKey = [Uri]::EscapeDataString($ProjectKey)
-    $response = Invoke-ApiRequest -Url "project/$ProjectId/pseudo-download?key=$ProjectKey&json" -OutDir $OutDir
-    $response.File
+    Invoke-ApiRequest -Url "project/$ProjectId/pseudo-download?key=$ProjectKey&json" -OutDir $OutDir
 }
