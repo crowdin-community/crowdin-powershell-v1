@@ -29,14 +29,27 @@ function Invoke-ApiRequest
         else
         {
             $content = $Body | Format-RequestBody | ConvertTo-MultipartFormDataContent
-            New-Object System.Net.Http.HttpRequestMessage -ArgumentList @([System.Net.Http.HttpMethod]::Post, $Url) -Property @{Content=$content}
+            New-Object System.Net.Http.HttpRequestMessage -ArgumentList @([System.Net.Http.HttpMethod]::Post, $Url) -Property @{
+                Content = $content
+            }
         }
         if ($EntityTag)
         {
             [void]$request.Headers.TryAddWithoutValidation('If-None-Match', $EntityTag)
         }
 
-        $request | Send-ApiRequest | Receive-ApiResponse -OutDir $OutDir
+        try {
+            $response = Send-ApiRequest -Request $request
+            try {
+                Receive-ApiResponse -Response $response -OutDir $OutDir
+            }
+            finally {
+                $response.Dispose()
+            }
+        }
+        finally {
+            $request.Dispose()
+        }
     }
 }
 
