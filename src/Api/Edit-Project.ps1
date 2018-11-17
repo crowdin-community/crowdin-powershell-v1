@@ -140,7 +140,10 @@ function Edit-Project
 
         [Parameter()]
         [Alias('qa_checks')]
-        [hashtable]$QAChecks,
+        [ValidateScript({
+            $_ -is [psobject] -or $_ -is [System.Collections.IDictionary]
+        })]
+        $QAChecks,
 
         [Parameter()]
         [Alias('webhook_file_translated')]

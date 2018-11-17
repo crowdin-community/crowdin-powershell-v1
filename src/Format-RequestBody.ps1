@@ -82,10 +82,7 @@ function Format-RequestBody
             elseif ($Value -is [array]) {
                 Format-Array
             }
-            elseif ($Value -is [hashtable]) {
-                Format-Hashtable
-            }
-            elseif ($Value -is [System.Collections.Specialized.OrderedDictionary]) {
+            elseif ($Value -is [System.Collections.IDictionary]) {
                 Format-Hashtable
             }
             elseif ($Value -is [psobject]) {
