@@ -16,7 +16,7 @@ function Add-Translation
         [string]$FileName,
 
         [Parameter(Mandatory)]
-        [System.IO.FileInfo]$File,
+        $File,
 
         [Parameter(Mandatory)]
         [string]$Language,
@@ -45,6 +45,8 @@ function Add-Translation
         'key' = $ProjectKey
         "files[$FileName]" = $File
     }
-    $body = $PSCmdlet | ConvertFrom-PSCmdlet -TargetObject $body -ExcludeParameter ProjectId,ProjectKey,FileName,File
+    $body = $PSCmdlet |
+        ConvertFrom-PSCmdlet -TargetObject $body -ExcludeParameter ProjectId,ProjectKey,FileName,File |
+        Resolve-File -FileProperty "files[$FileName]"
     Invoke-ApiRequest -Url "project/$ProjectId/upload-translation?json" -Body $body
 }

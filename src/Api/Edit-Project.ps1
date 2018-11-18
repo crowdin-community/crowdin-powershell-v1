@@ -129,7 +129,7 @@ function Edit-Project
         [switch]$UseGlobalTM,
 
         [Parameter()]
-        [System.IO.FileInfo]$Logo,
+        $Logo,
 
         [Parameter()]
         [Alias('cname')]
@@ -163,6 +163,6 @@ function Edit-Project
     )
 
     $ProjectId = [Uri]::EscapeDataString($ProjectId)
-    $body = $PSCmdlet | ConvertFrom-PSCmdlet -ExcludeParameter ProjectId
+    $body = $PSCmdlet | ConvertFrom-PSCmdlet -ExcludeParameter ProjectId | Resolve-File -FileProperty Logo
     Invoke-ApiRequest -Url "project/$ProjectId/edit-project?json" -Body $body
 }

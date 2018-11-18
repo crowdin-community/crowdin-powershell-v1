@@ -1,5 +1,6 @@
 $here = Split-Path -Parent $MyInvocation.MyCommand.Path
 . "$here/ConvertFrom-PSCmdlet.ps1"
+. "$here/Resolve-File.ps1"
 . "$here/Format-RequestBody.ps1"
 . "$here/ConvertTo-MultipartFormDataContent.ps1"
 

@@ -152,7 +152,7 @@ function New-Project
         [switch]$UseGlobalTM,
 
         [Parameter()]
-        [System.IO.FileInfo]$Logo,
+        $Logo,
 
         [Parameter()]
         [Alias('cname')]
@@ -193,6 +193,6 @@ function New-Project
         [string]$WebhookProjectProofread
     )
 
-    $body = $PSCmdlet | ConvertFrom-PSCmdlet
+    $body = $PSCmdlet | ConvertFrom-PSCmdlet | Resolve-File -FileProperty Logo
     Invoke-ApiRequest -Url "account/create-project?json" -Body $body
 }

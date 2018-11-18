@@ -16,7 +16,7 @@ function Add-File
         [string]$Name,
 
         [Parameter(Mandatory)]
-        [System.IO.FileInfo]$File,
+        $File,
 
         [Parameter()]
         [string]$Title,
@@ -76,6 +76,8 @@ function Add-File
     {
         $body | Add-Member "export_patterns[$Name]" $ExportPattern
     }
-    $body = $PSCmdlet | ConvertFrom-PSCmdlet -TargetObject $body -ExcludeParameter ProjectId,ProjectKey,Name,File,Title,ExportPattern
+    $body = $PSCmdlet |
+        ConvertFrom-PSCmdlet -TargetObject $body -ExcludeParameter ProjectId,ProjectKey,Name,File,Title,ExportPattern |
+        Resolve-File -FileProperty "files[$Name]"
     Invoke-ApiRequest -Url "project/$ProjectId/add-file?json" -Body $body
 }
