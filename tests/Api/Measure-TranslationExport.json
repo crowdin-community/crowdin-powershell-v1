@@ -1,0 +1,17 @@
+{
+    "required parameters": {
+        "arguments": {
+            "ProjectId": "theprojectid",
+            "ProjectKey": "theprojectkey",
+            "Branch": "thebranch"
+        },
+        "expectedRequest": {
+            "method": "POST",
+            "url": "project/theprojectid/export-status?json",
+            "body": {
+                "key": "theprojectkey",
+                "branch": "thebranch"
+            }
+        }
+    }
+}

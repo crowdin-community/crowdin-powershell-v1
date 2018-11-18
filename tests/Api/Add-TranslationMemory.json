@@ -1,0 +1,36 @@
+{
+    "required parameters": {
+        "arguments": {
+            "ProjectId": "theprojectid",
+            "ProjectKey": "theprojectkey",
+            "File": "TestDrive:/test.dat"
+        },
+        "expectedRequest": {
+            "method": "POST",
+            "url": "project/theprojectid/upload-tm?json",
+            "body": {
+                "key": "theprojectkey",
+                "file": "Content of the test file."
+            }
+        }
+    },
+    "all parameters": {
+        "arguments": {
+            "ProjectId": "theprojectid",
+            "ProjectKey": "theprojectkey",
+            "File": "TestDrive:/test.dat",
+            "FirstLineContainsHeader": true,
+            "Scheme": "thescheme"
+        },
+        "expectedRequest": {
+            "method": "POST",
+            "url": "project/theprojectid/upload-tm?json",
+            "body": {
+                "key": "theprojectkey",
+                "file": "Content of the test file.",
+                "first_line_contains_header": "1",
+                "scheme": "thescheme"
+            }
+        }
+    }
+}

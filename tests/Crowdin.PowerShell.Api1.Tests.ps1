@@ -291,4 +291,117 @@ Describe "Test API requests" {
             }
         }
     }
+
+    Context "Crowdin API" {
+
+        'Content of the test file.' | Set-Content 'TestDrive:/test.dat' -NoNewline
+
+        Mock -ModuleName 'Crowdin.PowerShell.Api1' -CommandName 'Send-ApiRequest' -MockWith {
+            $requestDump = [PSCustomObject]@{
+                success = $true
+                method = $Request.Method.Method
+                url = $Request.RequestUri
+                body = @{}
+            }
+            foreach ($formData in $Request.Content)
+            {
+                $requestDump.Body.Add($formData.Headers.ContentDisposition.Name.Trim('"'), $formdata.ReadAsStringAsync().GetAwaiter().GetResult())
+            }
+
+            $responseContent = New-Object System.Net.Http.StringContent -ArgumentList @(ConvertTo-Json $requestDump -Compress)
+            $responseContent.Headers.ContentType = [System.Net.Http.Headers.MediaTypeHeaderValue]::Parse('application/json')
+            New-Object System.Net.Http.HttpResponseMessage -ArgumentList @([System.Net.HttpStatusCode]::NonAuthoritativeInformation) -Property @{
+                RequestMessage = $Request
+                ReasonPhrase = "Mock"
+                Content = $responseContent
+            }
+        }
+
+        function ConvertTo-Hashtable
+        {
+            [CmdletBinding()]
+            param (
+                [Parameter(ValueFromPipeline)]
+                [PSObject]$InputObject
+            )
+            process {
+                $hashtable = @{}
+                foreach ($member in $InputObject.PSObject.Properties)
+                {
+                    $hashtable.Add($member.Name, $member.Value)
+                }
+                $hashtable
+            }
+        }
+
+        function Compare-Hashtables
+        {
+            [CmdletBinding()]
+            param (
+                [Parameter(Mandatory)]
+                [hashtable]$Left,
+
+                [Parameter(Mandatory)]
+                [hashtable]$Right
+            )
+
+            $errLeft = $Left.Clone()
+            $errValue = @{}
+            $errRight = $Right.Clone()
+
+            foreach ($key in $Left.Keys)
+            {
+                if ($errRight.ContainsKey($key))
+                {
+                    if ($errLeft[$key] -ne $errRight[$key])
+                    {
+                        $errValue.Add($key, @($errLeft[$key], $errRight[$key]))
+                    }
+                    $errLeft.Remove($key)
+                    $errRight.Remove($key)
+                }
+            }
+
+            $errLeft
+            $errValue
+            $errRight
+        }
+
+        $PSScriptRoot | Join-Path -ChildPath 'Api' | Get-ChildItem -File -Filter *.json | ForEach-Object {
+            $testDataFile = $_
+            $cmdletName = [IO.Path]::GetFileNameWithoutExtension($testDataFile) -csplit '-',2 -join ('-' + $Global:moduleUnderTest.Prefix)
+
+            Context "$cmdletName" {
+                $apiCmdlet = $cmdletName | Get-Command -Module $Global:moduleUnderTest -ErrorAction SilentlyContinue
+                It "Command exists" {
+                    $apiCmdlet | Should -Not -BeNullOrEmpty
+                }
+                if ($apiCmdlet -eq $null)
+                {
+                    return
+                }
+
+                $testCases = $testDataFile | Get-Content -Raw | ConvertFrom-Json |
+                    ForEach-Object { $_.PSObject.Properties } | ForEach-Object { $_.Value | Add-Member 'case' $_.Name -PassThru } |
+                    ConvertTo-Hashtable
+                It "Generates valid request when called with <case>" -TestCases $testCases {
+                    param($arguments, $expectedRequest)
+
+                    $namedArguments = $arguments | ConvertTo-Hashtable
+                    $actualRequest = & $apiCmdlet @namedArguments
+                    Assert-MockCalled -ModuleName 'Crowdin.PowerShell.Api1' -CommandName 'Send-ApiRequest' -Scope It -Times 1 -Exactly
+
+                    $actualRequest | Should -BeOfType [PSCustomObject]
+                    $actualRequest.Method | Should -BeExactly $expectedRequest.Method
+                    $actualRequest.Url | Should -BeExactly $expectedRequest.Url
+
+                    $bodies = $actualRequest.Body, $expectedRequest.Body | ConvertTo-Hashtable
+                    $errActual, $errValue, $errExpected = Compare-Hashtables @bodies
+                    $errActual.Keys | Should -BeNullOrEmpty
+                    $errValue.Values | Should -BeNullOrEmpty
+                    $errExpected.Keys | Should -BeNullOrEmpty
+                }
+            }
+        }
+    }
 }

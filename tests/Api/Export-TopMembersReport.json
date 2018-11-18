@@ -1,0 +1,38 @@
+{
+    "required parameters": {
+        "arguments": {
+            "ProjectId": "theprojectid",
+            "ProjectKey": "theprojectkey"
+        },
+        "expectedRequest": {
+            "method": "POST",
+            "url": "project/theprojectid/reports/top-members/export?json",
+            "body": {
+                "key": "theprojectkey"
+            }
+        }
+    },
+    "all parameters": {
+        "arguments": {
+            "ProjectId": "theprojectid",
+            "ProjectKey": "theprojectkey",
+            "Language": "uk-UA",
+            "Unit": "words",
+            "DateFrom": "2018-11-01",
+            "DateTo": "2018-11-15",
+            "Format": "csv"
+        },
+        "expectedRequest": {
+            "method": "POST",
+            "url": "project/theprojectid/reports/top-members/export?json",
+            "body": {
+                "key": "theprojectkey",
+                "language": "uk-UA",
+                "unit": "words",
+                "date_from": "2018-11-01",
+                "date_to": "2018-11-15",
+                "format": "csv"
+            }
+        }
+    }
+}

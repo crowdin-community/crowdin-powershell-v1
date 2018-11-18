@@ -1,0 +1,17 @@
+{
+    "required parameters": {
+        "arguments": {
+            "ProjectId": "theprojectid",
+            "ProjectKey": "theprojectkey",
+            "Language": "uk-UA"
+        },
+        "expectedRequest": {
+            "method": "POST",
+            "url": "project/theprojectid/language-status?json",
+            "body": {
+                "key": "theprojectkey",
+                "language": "uk-UA"
+            }
+        }
+    }
+}

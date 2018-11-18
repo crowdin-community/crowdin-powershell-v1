@@ -1,0 +1,16 @@
+{
+    "required parameters": {
+        "arguments": {
+            "LoginName": "theusername",
+            "AccountKey": "theaccountkey"
+        },
+        "expectedRequest": {
+            "method": "POST",
+            "url": "account/get-projects?json",
+            "body": {
+                "login": "theusername",
+                "account-key": "theaccountkey"
+            }
+        }
+    }
+}

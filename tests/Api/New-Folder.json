@@ -1,0 +1,42 @@
+{
+    "required parameters": {
+        "arguments": {
+            "ProjectId": "theprojectid",
+            "ProjectKey": "theprojectkey",
+            "Name": "thefolder"
+        },
+        "expectedRequest": {
+            "method": "POST",
+            "url": "project/theprojectid/add-directory?json",
+            "body": {
+                "key": "theprojectkey",
+                "name": "thefolder"
+            }
+        }
+    },
+    "all parameters": {
+        "arguments": {
+            "ProjectId": "theprojectid",
+            "ProjectKey": "theprojectkey",
+            "Name": "thefolder",
+            "Title": "thetitle",
+            "ExportPattern": "theexportpattern",
+            "Recursive": true,
+            "IsBranch": false,
+            "Branch": "thebranch"
+        },
+        "expectedRequest": {
+            "method": "POST",
+            "url": "project/theprojectid/add-directory?json",
+            "body": {
+                "key": "theprojectkey",
+                "name": "thefolder",
+                "title": "thetitle",
+                "export_pattern": "theexportpattern",
+                "recursive": "1",
+                "isbranch": "0",
+                "branch": "thebranch"
+            }
+        }
+    }
+}

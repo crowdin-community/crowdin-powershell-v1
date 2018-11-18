@@ -1,0 +1,36 @@
+{
+    "required parameters": {
+        "arguments": {
+            "ProjectId": "theprojectid",
+            "ProjectKey": "theprojectkey"
+        },
+        "expectedRequest": {
+            "method": "POST",
+            "url": "project/theprojectid/pseudo-export?json",
+            "body": {
+                "key": "theprojectkey"
+            }
+        }
+    },
+    "all parameters": {
+        "arguments": {
+            "ProjectId": "theprojectid",
+            "ProjectKey": "theprojectkey",
+            "Prefix": "theprefix",
+            "Suffix": "thesuffix",
+            "LengthTransformation": 10,
+            "CharTransformation": "european"
+        },
+        "expectedRequest": {
+            "method": "POST",
+            "url": "project/theprojectid/pseudo-export?json",
+            "body": {
+                "key": "theprojectkey",
+                "prefix": "theprefix",
+                "suffix": "thesuffix",
+                "length_transformation": "10",
+                "char_transformation": "european"
+            }
+        }
+    }
+}

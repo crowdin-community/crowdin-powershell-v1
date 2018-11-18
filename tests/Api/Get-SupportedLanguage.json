@@ -1,0 +1,9 @@
+{
+    "required parameters": {
+        "arguments": { },
+        "expectedRequest" : {
+            "method": "GET",
+            "url": "supported-languages?json"
+        }
+    }
+}

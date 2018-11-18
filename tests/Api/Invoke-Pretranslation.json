@@ -1,0 +1,56 @@
+{
+    "required parameters": {
+        "arguments": {
+            "ProjectId": "theprojectid",
+            "ProjectKey": "theprojectkey",
+            "Language": ["uk-UA", "en-GB"],
+            "File": ["file-a", "file-b", "file-c"]
+        },
+        "expectedRequest": {
+            "method": "POST",
+            "url": "project/theprojectid/pre-translate?json",
+            "body": {
+                "key": "theprojectkey",
+                "languages[0]": "uk-UA",
+                "languages[1]": "en-GB",
+                "files[0]": "file-a",
+                "files[1]": "file-b",
+                "files[2]": "file-c"
+            }
+        }
+    },
+    "all parameters": {
+        "arguments": {
+            "ProjectId": "theprojectid",
+            "ProjectKey": "theprojectkey",
+            "Language": ["uk-UA", "en-GB"],
+            "File": ["file-a", "file-b", "file-c"],
+            "Method": "mt",
+            "Engine": "Crowdin",
+            "ApproveTranslated" : true,
+            "AutoApproveOption": 2,
+            "ImportDuplicates": false,
+            "UntranslatedStringsOnly": true,
+            "PerfectMatch": true
+        },
+        "expectedRequest": {
+            "method": "POST",
+            "url": "project/theprojectid/pre-translate?json",
+            "body": {
+                "key": "theprojectkey",
+                "languages[0]": "uk-UA",
+                "languages[1]": "en-GB",
+                "files[0]": "file-a",
+                "files[1]": "file-b",
+                "files[2]": "file-c",
+                "method": "mt",
+                "engine": "Crowdin",
+                "approve_translated" : "1",
+                "auto_approve_option": "2",
+                "import_duplicates": "0",
+                "apply_untranslated_strings_only": "1",
+                "perfect_match": "1"
+            }
+        }
+    }
+}

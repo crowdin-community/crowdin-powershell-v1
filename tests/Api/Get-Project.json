@@ -1,0 +1,15 @@
+{
+    "required parameters": {
+        "arguments": {
+            "ProjectId": "theprojectid",
+            "ProjectKey": "theprojectkey"
+        },
+        "expectedRequest": {
+            "method": "POST",
+            "url": "project/theprojectid/info?json",
+            "body": {
+                "key": "theprojectkey"
+            }
+        }
+    }
+}

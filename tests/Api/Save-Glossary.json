@@ -1,0 +1,31 @@
+{
+    "required parameters": {
+        "arguments": {
+            "ProjectId": "theprojectid",
+            "ProjectKey": "theprojectkey"
+        },
+        "expectedRequest": {
+            "method": "POST",
+            "url": "project/theprojectid/download-glossary?json",
+            "body": {
+                "key": "theprojectkey"
+            }
+        }
+    },
+    "all parameters": {
+        "arguments": {
+            "ProjectId": "theprojectid",
+            "ProjectKey": "theprojectkey",
+            "IncludeAssigned": true,
+            "OutDir": "theoutdir"
+        },
+        "expectedRequest": {
+            "method": "POST",
+            "url": "project/theprojectid/download-glossary?json",
+            "body": {
+                "key": "theprojectkey",
+                "include_assigned": "1"
+            }
+        }
+    }
+}
