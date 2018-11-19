@@ -18,6 +18,6 @@ function Save-Glossary
     )
 
     $ProjectId = [Uri]::EscapeDataString($ProjectId)
-    $body = $PSCmdlet | ConvertFrom-PSCmdlet -ExcludeParameter ProjectId
+    $body = $PSCmdlet | ConvertFrom-PSCmdlet -ExcludeParameter ProjectId,OutDir
     Invoke-ApiRequest -Url "project/$ProjectId/download-glossary?json" -Body $body -OutDir $OutDir
 }

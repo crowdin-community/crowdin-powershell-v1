@@ -19,5 +19,5 @@ function Save-Translation
     $ProjectId = [Uri]::EscapeDataString($ProjectId)
     $ProjectKey = [Uri]::EscapeDataString($ProjectKey)
     $Package = [Uri]::EscapeDataString($Package)
-    Invoke-ApiRequest -Url "project/$ProjectId/download/$Package.zip?key=$ProjectKey&json" -OutDir $OutDir
+    Invoke-ApiRequest -Url "project/$ProjectId/download/$Package.zip?json&key=$ProjectKey" -OutDir $OutDir
 }
