@@ -30,7 +30,7 @@ function Add-Translation
         [switch]$ImportEqualSuggestions,
 
         [Parameter()]
-        [Alias('auto_approve_imported ')]
+        [Alias('auto_approve_imported')]
         [switch]$AutoApproveImported,
 
         [Parameter()]

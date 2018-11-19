@@ -19,10 +19,12 @@ function Export-Pseudotranslation
 
         [Parameter()]
         [Alias('length_transformation')]
-        [string]$LengthTransformation,
+        [ValidateRange(-50, 100)]
+        [int]$LengthTransformation,
 
         [Parameter()]
         [Alias('char_transformation')]
+        [ValidateSet('asian', 'european', 'arabic')]
         [string]$CharTransformation
     )
 
