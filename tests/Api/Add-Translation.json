@@ -1,0 +1,48 @@
+{
+    "required parameters": {
+        "arguments": {
+            "ProjectId": "theprojectid",
+            "ProjectKey": "theprojectkey",
+            "FileName": "thefile",
+            "File": "TestDrive:/test.dat",
+            "Language": "uk-UA"
+        },
+        "expectedRequest": {
+            "method": "POST",
+            "url": "project/theprojectid/upload-translation?json",
+            "body": {
+                "key": "theprojectkey",
+                "files[thefile]": "Content of the test file.",
+                "language": "uk-UA"
+            }
+        }
+    },
+    "all parameters": {
+        "arguments": {
+            "ProjectId": "theprojectid",
+            "ProjectKey": "theprojectkey",
+            "FileName": "thefile",
+            "File": "TestDrive:/test.dat",
+            "Language": "uk-UA",
+            "ImportDuplicates": true,
+            "ImportEqualSuggestions": true,
+            "AutoApproveImported": true,
+            "Format": "theformat",
+            "Branch": "thebranch"
+        },
+        "expectedRequest": {
+            "method": "POST",
+            "url": "project/theprojectid/upload-translation?json",
+            "body": {
+                "key": "theprojectkey",
+                "files[thefile]": "Content of the test file.",
+                "language": "uk-UA",
+                "import_duplicates": "1",
+                "import_eq_suggestions": "1",
+                "auto_approve_imported": "1",
+                "format": "theformat",
+                "branch": "thebranch"
+            }
+        }
+    }
+}

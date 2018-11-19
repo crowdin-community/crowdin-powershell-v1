@@ -1,0 +1,32 @@
+{
+    "required parameters": {
+        "arguments": {
+            "ProjectId": "theprojectid",
+            "ProjectKey": "theprojectkey"
+        },
+        "expectedRequest": {
+            "method": "POST",
+            "url": "project/theprojectid/export?json",
+            "body": {
+                "key": "theprojectkey"
+            }
+        }
+    },
+    "all parameters": {
+        "arguments": {
+            "ProjectId": "theprojectid",
+            "ProjectKey": "theprojectkey",
+            "Branch": "thebranch",
+            "Async": true
+        },
+        "expectedRequest": {
+            "method": "POST",
+            "url": "project/theprojectid/export?json",
+            "body": {
+                "key": "theprojectkey",
+                "branch": "thebranch",
+                "async": "1"
+            }
+        }
+    }
+}

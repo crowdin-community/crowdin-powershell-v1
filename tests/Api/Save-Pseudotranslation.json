@@ -1,0 +1,25 @@
+{
+    "required parameters": {
+        "arguments": {
+            "ProjectId": "theprojectid",
+            "ProjectKey": "theprojectkey"
+        },
+        "expectedRequest": {
+            "method": "GET",
+            "url": "project/theprojectid/pseudo-download?json&key=theprojectkey",
+            "body": {}
+        }
+    },
+    "all parameters": {
+        "arguments": {
+            "ProjectId": "theprojectid",
+            "ProjectKey": "theprojectkey",
+            "OutDir": "theoutdir"
+        },
+        "expectedRequest": {
+            "method": "GET",
+            "url": "project/theprojectid/pseudo-download?json&key=theprojectkey",
+            "body": {}
+        }
+    }
+}

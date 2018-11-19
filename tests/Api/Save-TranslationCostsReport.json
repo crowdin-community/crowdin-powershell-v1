@@ -1,0 +1,27 @@
+{
+    "required parameters": {
+        "arguments": {
+            "ProjectId": "theprojectid",
+            "ProjectKey": "theprojectkey",
+            "Hash": "0123456789abcdef"
+        },
+        "expectedRequest": {
+            "method": "GET",
+            "url": "project/theprojectid/reports/translation-costs/download?json&key=theprojectkey&hash=0123456789abcdef",
+            "body": {}
+        }
+    },
+    "all parameters": {
+        "arguments": {
+            "ProjectId": "theprojectid",
+            "ProjectKey": "theprojectkey",
+            "Hash": "0123456789abcdef",
+            "OutDir": "theoutdir"
+        },
+        "expectedRequest": {
+            "method": "GET",
+            "url": "project/theprojectid/reports/translation-costs/download?json&key=theprojectkey&hash=0123456789abcdef",
+            "body": {}
+        }
+    }
+}

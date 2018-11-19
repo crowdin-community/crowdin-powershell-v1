@@ -1,0 +1,40 @@
+{
+    "required parameters": {
+        "arguments": {
+            "ProjectId": "theprojectid",
+            "ProjectKey": "theprojectkey",
+            "Name": "thefolder"
+        },
+        "expectedRequest": {
+            "method": "POST",
+            "url": "project/theprojectid/change-directory?json",
+            "body": {
+                "key": "theprojectkey",
+                "name": "thefolder"
+            }
+        }
+    },
+    "all parameters": {
+        "arguments": {
+            "ProjectId": "theprojectid",
+            "ProjectKey": "theprojectkey",
+            "Name": "thefolder",
+            "NewName": "newfoldername",
+            "Title": "thetitle",
+            "ExportPattern": "theexportpattern",
+            "Branch": "thebranch"
+        },
+        "expectedRequest": {
+            "method": "POST",
+            "url": "project/theprojectid/change-directory?json",
+            "body": {
+                "key": "theprojectkey",
+                "name": "thefolder",
+                "new_name": "newfoldername",
+                "title": "thetitle",
+                "export_pattern": "theexportpattern",
+                "branch": "thebranch"
+            }
+        }
+    }
+}

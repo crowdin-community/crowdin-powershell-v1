@@ -11,7 +11,19 @@ Describe "Format-RequestBody" {
             BoolParam = $true
             DateTimeParam = Get-Date -Year 1987 -Month 6 -Day 19 -Hour 21 -Minute 36 -Second 0
             ArrayParam = 'a','b',@{c = @($false)},'d',@('e')
-            HashtableParam = [ordered]@{A = 'a1'; B = 'b2'; C = 'c3'; D = @([ordered]@{E = 'ee'; F = 'ff'}, @(17, [ordered]@{X = 'xx'; Y = 'yy'; Z = (3)}))}
+            HashtableParam = [ordered]@{
+                A = 'a1';
+                B = 'b2';
+                C = 'c3';
+                D = @(
+                    [ordered]@{E = 'ee'; F = 'ff'},
+                    @(17, [pscustomobject]@{X = 'xx'; Y = 'yy'; Z = 3})
+                )
+            }
+            ObjectParam = New-Object PSObject -Property ([ordered]@{
+                A = 'objA';
+                B = [System.Management.Automation.SwitchParameter]$false
+            })
         }
 
         $requestBody = Format-RequestBody -InputObject $data
@@ -35,7 +47,9 @@ Describe "Format-RequestBody" {
             'hashtableparam[D][1][0]    : 17'
             'hashtableparam[D][1][1][X] : xx'
             'hashtableparam[D][1][1][Y] : yy'
-            'hashtableparam[D][1][1][Z] : 3')
+            'hashtableparam[D][1][1][Z] : 3'
+            'objectparam[A]             : objA'
+            'objectparam[B]             : 0')
         for ($i = 0; $i -lt $dump.Length; $i++)
         {
             It "$($expected[$i])" {

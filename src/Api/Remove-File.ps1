@@ -11,14 +11,14 @@ Project API key.
 .PARAMETER ProjectId
 Should contain the project identifier.
 
-.PARAMETER FileName
-File name that should be deleted.
+.PARAMETER Name
+Name of the file that should be deleted.
 
 .PARAMETER Branch
 The name of related version branch.
 
 .EXAMPLE
-Remove-CrowdinFile -ProjectId apitestproject -ProjectKey 2b680...ce586 -FileName 'test.xml'
+Remove-CrowdinFile -ProjectId apitestproject -ProjectKey 2b680...ce586 -Name 'test.xml'
 
 #>
 function Remove-File
@@ -38,7 +38,7 @@ function Remove-File
         [Parameter(Mandatory)]
         [ValidateNotNullOrEmpty()]
         [Alias('file')]
-        [string]$FileName,
+        [string]$Name,
 
         [Parameter()]
         [string]$Branch

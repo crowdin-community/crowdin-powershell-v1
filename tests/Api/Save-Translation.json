@@ -1,0 +1,27 @@
+{
+    "required parameters": {
+        "arguments": {
+            "ProjectId": "theprojectid",
+            "ProjectKey": "theprojectkey",
+            "Package": "thepackage"
+        },
+        "expectedRequest": {
+            "method": "GET",
+            "url": "project/theprojectid/download/thepackage.zip?json&key=theprojectkey",
+            "body": {}
+        }
+    },
+    "all parameters": {
+        "arguments": {
+            "ProjectId": "theprojectid",
+            "ProjectKey": "theprojectkey",
+            "Package": "thepackage",
+            "OutDir": "theoutdir"
+        },
+        "expectedRequest": {
+            "method": "GET",
+            "url": "project/theprojectid/download/thepackage.zip?json&key=theprojectkey",
+            "body": {}
+        }
+    }
+}

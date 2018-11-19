@@ -1,0 +1,35 @@
+{
+    "required parameters": {
+        "arguments": {
+            "ProjectId": "theprojectid",
+            "ProjectKey": "theprojectkey"
+        },
+        "expectedRequest": {
+            "method": "POST",
+            "url": "project/theprojectid/download-tm?json",
+            "body": {
+                "key": "theprojectkey"
+            }
+        }
+    },
+    "all parameters": {
+        "arguments": {
+            "ProjectId": "theprojectid",
+            "ProjectKey": "theprojectkey",
+            "IncludeAssigned": true,
+            "SourceLanguage": "en-US",
+            "TargetLanguage": "fr-FR",
+            "OutDir": "theoutdir"
+        },
+        "expectedRequest": {
+            "method": "POST",
+            "url": "project/theprojectid/download-tm?json",
+            "body": {
+                "key": "theprojectkey",
+                "include_assigned": "1",
+                "source_language": "en-US",
+                "target_language": "fr-FR"
+            }
+        }
+    }
+}

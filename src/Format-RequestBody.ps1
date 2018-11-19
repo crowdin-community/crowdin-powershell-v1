@@ -59,9 +59,9 @@ function Format-RequestBody
 
             function Format-Object {
                 $members = [ordered]@{}
-                foreach ($member in ($Value | Get-Member -MemberType NoteProperty))
+                foreach ($member in $Value.PSObject.Properties)
                 {
-                    $values = Format-Member "[$($member.Name)]" $Object.($member.Name)
+                    $values = Format-Member "[$($member.Name)]" $member.Value
                     foreach ($subKey in $values.Keys)
                     {
                         $members.Add($subKey, $values[$subKey])
@@ -82,10 +82,7 @@ function Format-RequestBody
             elseif ($Value -is [array]) {
                 Format-Array
             }
-            elseif ($Value -is [hashtable]) {
-                Format-Hashtable
-            }
-            elseif ($Value -is [System.Collections.Specialized.OrderedDictionary]) {
+            elseif ($Value -is [System.Collections.IDictionary]) {
                 Format-Hashtable
             }
             elseif ($Value -is [psobject]) {
@@ -99,9 +96,9 @@ function Format-RequestBody
 
     process {
         $requestBody = [PSCustomObject]@{}
-        foreach ($member in ($InputObject.PSObject.Properties | Where-Object -Property MemberType -EQ NoteProperty))
+        foreach ($member in $InputObject.PSObject.Properties)
         {
-            $members = Format-Member -MemberName $member.Name.ToLower() -MemberValue ($member.Value)
+            $members = Format-Member -MemberName $member.Name.ToLower() -MemberValue $member.Value
             $requestBody | Add-Member -NotePropertyMembers $members
         }
         $requestBody

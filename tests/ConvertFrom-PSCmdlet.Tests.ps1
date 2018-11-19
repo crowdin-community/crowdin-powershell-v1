@@ -18,7 +18,10 @@ function Test-ConvertFromPSCmdlet {
         [Parameter()]
         [array]$ArrayParam,
         [Parameter()]
-        [hashtable]$HashtableParam,
+        [ValidateScript({
+            $_ -is [psobject] -or $_ -is [System.Collections.IDictionary]
+        })]
+        $HashtableParam,
         [Parameter()]
         [Alias('AliasedParam')]
         $NamedParam,

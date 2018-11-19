@@ -13,10 +13,10 @@ function Add-File
         [string]$ProjectKey,
 
         [Parameter(Mandatory)]
-        [string]$FileName,
+        [string]$Name,
 
         [Parameter(Mandatory)]
-        [System.IO.FileInfo]$File,
+        $File,
 
         [Parameter()]
         [string]$Title,
@@ -66,16 +66,18 @@ function Add-File
     $ProjectId = [Uri]::EscapeDataString($ProjectId)
     $body = [pscustomobject]@{
         'key' = $ProjectKey
-        "files[$FileName]" = $File
+        "files[$Name]" = $File
     }
     if ($PSBoundParameters.ContainsKey('Title'))
     {
-        $body | Add-Member "titles[$FileName]" $Title
+        $body | Add-Member "titles[$Name]" $Title
     }
     if ($PSBoundParameters.ContainsKey('ExportPattern'))
     {
-        $body | Add-Member "export_patterns[$FileName]" $ExportPattern
+        $body | Add-Member "export_patterns[$Name]" $ExportPattern
     }
-    $body = $PSCmdlet | ConvertFrom-PSCmdlet -TargetObject $body -ExcludeParameter ProjectId,ProjectKey,FileName,File,Title,ExportPattern
+    $body = $PSCmdlet |
+        ConvertFrom-PSCmdlet -TargetObject $body -ExcludeParameter ProjectId,ProjectKey,Name,File,Title,ExportPattern |
+        Resolve-File -FileProperty "files[$Name]"
     Invoke-ApiRequest -Url "project/$ProjectId/add-file?json" -Body $body
 }

@@ -1,0 +1,60 @@
+{
+    "required parameters": {
+        "arguments": {
+            "ProjectId": "theprojectid",
+            "ProjectKey": "theprojectkey",
+            "Name": "thefile",
+            "File": "TestDrive:/test.dat"
+        },
+        "expectedRequest": {
+            "method": "POST",
+            "url": "project/theprojectid/add-file?json",
+            "body": {
+                "key": "theprojectkey",
+                "files[thefile]": "Content of the test file."
+            }
+        }
+    },
+    "all parameters": {
+        "arguments": {
+            "ProjectId": "theprojectid",
+            "ProjectKey": "theprojectkey",
+            "Name": "thefile",
+            "File": "TestDrive:/test.dat",
+            "Title": "thetitle",
+            "ExportPattern": "theexportpattern",
+            "Type": "thetype",
+            "FirstLineContainsHeader": true,
+            "ImportTranslations": false,
+            "Scheme": "thescheme",
+            "Branch": "thebranch",
+            "TranslateContent": true,
+            "TranslateAttributes": false,
+            "ContentSegmentation": true,
+            "TranslatableElements": ["A", "B", "C"],
+            "EscapeQuotes": 2
+        },
+        "expectedRequest": {
+            "method": "POST",
+            "url": "project/theprojectid/add-file?json",
+            "body": {
+                "key": "theprojectkey",
+                "files[thefile]": "Content of the test file.",
+                "titles[thefile]": "thetitle",
+                "export_patterns[thefile]": "theexportpattern",
+                "type": "thetype",
+                "first_line_contains_header": "1",
+                "import_translations": "0",
+                "scheme": "thescheme",
+                "branch": "thebranch",
+                "translate_content": "1",
+                "translate_attributes": "0",
+                "content_segmentation": "1",
+                "translatable_elements[0]": "A",
+                "translatable_elements[1]": "B",
+                "translatable_elements[2]": "C",
+                "escape_quotes": "2"
+            }
+        }
+    }
+}

@@ -1,0 +1,82 @@
+{
+    "required parameters": {
+        "arguments": {
+            "ProjectId": "theprojectid",
+            "ProjectKey": "theprojectkey",
+            "Language": "uk-UA"
+        },
+        "expectedRequest": {
+            "method": "POST",
+            "url": "project/theprojectid/reports/costs-estimation/export?json",
+            "body": {
+                "key": "theprojectkey",
+                "language": "uk-UA"
+            }
+        }
+    },
+    "all parameters": {
+        "arguments": {
+            "ProjectId": "theprojectid",
+            "ProjectKey": "theprojectkey",
+            "Language": "uk-UA",
+            "Unit": "words",
+            "Mode": "fuzzy",
+            "CalculateInternalFuzzyMatches": true,
+            "DateFrom": "2018-11-01",
+            "DateTo": "2018-11-15",
+            "RegularRates": {
+                "translation": 2.05,
+                "perfect": 1,
+                "99-95": 1.03
+            },
+            "IndividualRates": [
+                {
+                    "languages": ["uk", "ca", "fr"],
+                    "rates": {
+                        "default": 1.4,
+                        "tm": 1.1,
+                        "approval": 2.0
+                    }
+                },
+                {
+                    "languages": ["de"],
+                    "rates": {
+                        "default": 1.55,
+                        "tm": 1.2,
+                        "approval": 2.1
+                    }
+                }
+            ],
+            "Currency": "$",
+            "Format": "csv"
+        },
+        "expectedRequest": {
+            "method": "POST",
+            "url": "project/theprojectid/reports/costs-estimation/export?json",
+            "body": {
+                "key": "theprojectkey",
+                "language": "uk-UA",
+                "unit": "words",
+                "mode": "fuzzy",
+                "calculate_internal_fuzzy_matches": "1",
+                "date_from": "2018-11-01",
+                "date_to": "2018-11-15",
+                "regular_rates[translation]": "2.05",
+                "regular_rates[perfect]": "1",
+                "regular_rates[99-95]": "1.03",
+                "individual_rates[0][languages][0]": "uk",
+                "individual_rates[0][languages][1]": "ca",
+                "individual_rates[0][languages][2]": "fr",
+                "individual_rates[0][rates][default]": "1.4",
+                "individual_rates[0][rates][tm]": "1.1",
+                "individual_rates[0][rates][approval]": "2",
+                "individual_rates[1][languages][0]": "de",
+                "individual_rates[1][rates][default]": "1.55",
+                "individual_rates[1][rates][tm]": "1.2",
+                "individual_rates[1][rates][approval]": "2.1",
+                "currency": "$",
+                "format": "csv"
+            }
+        }
+    }
+}

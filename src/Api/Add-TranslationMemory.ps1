@@ -13,7 +13,7 @@ function Add-TranslationMemory
         [string]$ProjectKey,
 
         [Parameter(Mandatory)]
-        [System.IO.FileInfo]$File,
+        $File,
 
         [Parameter()]
         [Alias('first_line_contains_header')]
@@ -24,6 +24,6 @@ function Add-TranslationMemory
     )
 
     $ProjectId = [Uri]::EscapeDataString($ProjectId)
-    $body = $PSCmdlet | ConvertFrom-PSCmdlet -ExcludeParameter ProjectId
+    $body = $PSCmdlet | ConvertFrom-PSCmdlet -ExcludeParameter ProjectId | Resolve-File -FileProperty File
     Invoke-ApiRequest -Url "project/$ProjectId/upload-tm?json" -Body $body
 }

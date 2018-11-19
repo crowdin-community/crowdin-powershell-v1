@@ -12,7 +12,10 @@ function Export-Translation
         [string]$ProjectKey,
 
         [Parameter()]
-        [string]$Branch
+        [string]$Branch,
+
+        [Parameter()]
+        [switch]$Async
     )
 
     $ProjectId = [Uri]::EscapeDataString($ProjectId)

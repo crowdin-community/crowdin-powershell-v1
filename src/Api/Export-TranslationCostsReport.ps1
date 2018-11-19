@@ -30,11 +30,19 @@ function Export-TranslationCostsReport
 
         [Parameter()]
         [Alias('regular_rates')]
-        [hashtable]$RegularRates,
+        [ValidateScript({
+            $_ -is [psobject] -or $_ -is [System.Collections.IDictionary]
+        })]
+        $RegularRates,
 
         [Parameter()]
         [Alias('individual_rates')]
-        [hashtable[]]$IndividualRates,
+        [ValidateScript({
+            [array]::TrueForAll([object[]]$_, [Predicate[object]]{ param($obj)
+                $obj -is [psobject] -or $obj -is [System.Collections.IDictionary]
+            })
+        })]
+        [array]$IndividualRates,
 
         [Parameter()]
         [string]$Currency,
@@ -55,6 +63,5 @@ function Export-TranslationCostsReport
 
     $ProjectId = [Uri]::EscapeDataString($ProjectId)
     $body = $PSCmdlet | ConvertFrom-PSCmdlet -ExcludeParameter ProjectId
-    $response = Invoke-ApiRequest -Url "project/$ProjectId/reports/translation-costs/export?json" -Body $body
-    $response.Hash
+    Invoke-ApiRequest -Url "project/$ProjectId/reports/translation-costs/export?json" -Body $body
 }

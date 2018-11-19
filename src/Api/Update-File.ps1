@@ -13,10 +13,10 @@ function Update-File
         [string]$ProjectKey,
 
         [Parameter(Mandatory)]
-        [string]$FileName,
+        [string]$Name,
 
         [Parameter(Mandatory)]
-        [System.IO.FileInfo]$File,
+        $File,
 
         [Parameter()]
         [string]$Title,
@@ -25,7 +25,7 @@ function Update-File
         [string]$ExportPattern,
 
         [Parameter()]
-        [string]$NewFileName,
+        [string]$NewName,
 
         [Parameter()]
         [Alias('first_line_contains_header')]
@@ -51,20 +51,22 @@ function Update-File
     $ProjectId = [Uri]::EscapeDataString($ProjectId)
     $body = [pscustomobject]@{
         'key' = $ProjectKey
-        "files[$FileName]" = $File
+        "files[$Name]" = $File
     }
     if ($PSBoundParameters.ContainsKey('Title'))
     {
-        $body | Add-Member "titles[$FileName]" $Title
+        $body | Add-Member "titles[$Name]" $Title
     }
     if ($PSBoundParameters.ContainsKey('ExportPattern'))
     {
-        $body | Add-Member "export_patterns[$FileName]" $ExportPattern
+        $body | Add-Member "export_patterns[$Name]" $ExportPattern
     }
-    if ($PSBoundParameters.ContainsKey('NewFileName'))
+    if ($PSBoundParameters.ContainsKey('NewName'))
     {
-        $body | Add-Member "new_names[$FileName]" $NewFileName
+        $body | Add-Member "new_names[$Name]" $NewName
     }
-    $body = $PSCmdlet | ConvertFrom-PSCmdlet -TargetObject $body -ExcludeParameter ProjectId,ProjectKey,FileName,File,Title,ExportPattern,NewFileName
+    $body = $PSCmdlet |
+        ConvertFrom-PSCmdlet -TargetObject $body -ExcludeParameter ProjectId,ProjectKey,Name,File,Title,ExportPattern,NewName |
+        Resolve-File -FileProperty "files[$Name]"
     Invoke-ApiRequest -Url "project/$ProjectId/update-file?json" -Body $body
 }

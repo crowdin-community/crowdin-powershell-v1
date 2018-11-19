@@ -1,0 +1,34 @@
+{
+    "required parameters": {
+        "arguments": {
+            "ProjectId": "theprojectid",
+            "ProjectKey": "theprojectkey",
+            "Name": "thefile"
+        },
+        "expectedRequest": {
+            "method": "POST",
+            "url": "project/theprojectid/delete-file?json",
+            "body": {
+                "key": "theprojectkey",
+                "file": "thefile"
+            }
+        }
+    },
+    "all parameters": {
+        "arguments": {
+            "ProjectId": "theprojectid",
+            "ProjectKey": "theprojectkey",
+            "Name": "thefile",
+            "Branch": "thebranch"
+        },
+        "expectedRequest": {
+            "method": "POST",
+            "url": "project/theprojectid/delete-file?json",
+            "body": {
+                "key": "theprojectkey",
+                "file": "thefile",
+                "branch": "thebranch"
+            }
+        }
+    }
+}
