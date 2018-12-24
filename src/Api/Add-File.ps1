@@ -3,12 +3,10 @@ function Add-File
     [CmdletBinding()]
     param (
         [Parameter(Mandatory)]
-        [ValidateNotNullOrEmpty()]
         [Alias('identifier')]
         [string]$ProjectId,
 
         [Parameter(Mandatory)]
-        [ValidateNotNullOrEmpty()]
         [Alias('key')]
         [string]$ProjectKey,
 

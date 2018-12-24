@@ -3,11 +3,9 @@ function New-Folder
     [CmdletBinding()]
     param (
         [Parameter(Mandatory)]
-        [ValidateNotNullOrEmpty()]
         [string]$ProjectId,
 
         [Parameter(Mandatory)]
-        [ValidateNotNullOrEmpty()]
         [Alias('key')]
         [string]$ProjectKey,
 

@@ -3,11 +3,9 @@ function Save-File
     [CmdletBinding()]
     param (
         [Parameter(Mandatory)]
-        [ValidateNotNullOrEmpty()]
         [string]$ProjectId,
 
         [Parameter(Mandatory)]
-        [ValidateNotNullOrEmpty()]
         [Alias('key')]
         [string]$ProjectKey,
 

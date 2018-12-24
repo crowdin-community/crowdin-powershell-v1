@@ -90,26 +90,21 @@ function New-Project
     [CmdletBinding()]
     param (
         [Parameter(Mandatory)]
-        [ValidateNotNullOrEmpty()]
         [Alias('login')]
         [string]$LoginName,
 
         [Parameter(Mandatory)]
-        [ValidateNotNullOrEmpty()]
         [Alias('account-key')]
         [string]$AccountKey,
 
         [Parameter(Mandatory)]
-        [ValidateNotNullOrEmpty()]
         [Alias('identifier')]
         [string]$ProjectId,
 
         [Parameter(Mandatory)]
-        [ValidateNotNullOrEmpty()]
         [string]$Name,
 
         [Parameter(Mandatory)]
-        [ValidateNotNullOrEmpty()]
         [Alias('source_language')]
         [string]$SourceLanguage,
 

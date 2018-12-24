@@ -77,12 +77,10 @@ function Edit-Project
     [CmdletBinding()]
     param (
         [Parameter(Mandatory)]
-        [ValidateNotNullOrEmpty()]
         [Alias('identifier')]
         [string]$ProjectId,
 
         [Parameter(Mandatory)]
-        [ValidateNotNullOrEmpty()]
         [Alias('key')]
         [string]$ProjectKey,
 
@@ -91,6 +89,7 @@ function Edit-Project
         [string]$Name,
 
         [Parameter()]
+        [ValidateNotNullOrEmpty()]
         [string[]]$Languages,
 
         [Parameter()]
