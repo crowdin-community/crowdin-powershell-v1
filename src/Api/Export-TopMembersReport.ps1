@@ -3,7 +3,6 @@ function Export-TopMembersReport
     [CmdletBinding()]
     param (
         [Parameter(Mandatory)]
-        [Alias('identifier')]
         [string]$ProjectId,
 
         [Parameter(Mandatory)]

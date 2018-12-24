@@ -3,7 +3,6 @@ function Add-TranslationMemory
     [CmdletBinding()]
     param (
         [Parameter(Mandatory)]
-        [Alias('identifier')]
         [string]$ProjectId,
 
         [Parameter(Mandatory)]

@@ -25,7 +25,6 @@ function Measure-Language
     [CmdletBinding()]
     param (
         [Parameter(Mandatory)]
-        [Alias('identifier')]
         [string]$ProjectId,
 
         [Parameter(Mandatory)]

@@ -77,7 +77,6 @@ function Edit-Project
     [CmdletBinding()]
     param (
         [Parameter(Mandatory)]
-        [Alias('identifier')]
         [string]$ProjectId,
 
         [Parameter(Mandatory)]

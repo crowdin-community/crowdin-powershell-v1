@@ -3,7 +3,6 @@ function Add-File
     [CmdletBinding()]
     param (
         [Parameter(Mandatory)]
-        [Alias('identifier')]
         [string]$ProjectId,
 
         [Parameter(Mandatory)]
