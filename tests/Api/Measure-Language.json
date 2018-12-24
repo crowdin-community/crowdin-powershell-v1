@@ -1,5 +1,5 @@
 {
-    "required parameters": {
+    "ProjectKey: required parameters": {
         "arguments": {
             "ProjectId": "theprojectid",
             "ProjectKey": "theprojectkey",
@@ -10,6 +10,23 @@
             "url": "project/theprojectid/language-status?json",
             "body": {
                 "key": "theprojectkey",
+                "language": "uk-UA"
+            }
+        }
+    },
+    "AccountKey: required parameters": {
+        "arguments": {
+            "ProjectId": "theprojectid",
+            "LoginName": "theloginname",
+            "AccountKey": "theaccountkey",
+            "Language": "uk-UA"
+        },
+        "expectedRequest": {
+            "method": "POST",
+            "url": "project/theprojectid/language-status?json",
+            "body": {
+                "login": "theloginname",
+                "account-key": "theaccountkey",
                 "language": "uk-UA"
             }
         }

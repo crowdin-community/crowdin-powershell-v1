@@ -1,5 +1,5 @@
 {
-    "required parameters": {
+    "ProjectKey: required parameters": {
         "arguments": {
             "ProjectId": "theprojectid",
             "ProjectKey": "theprojectkey",
@@ -15,7 +15,7 @@
             }
         }
     },
-    "all parameters": {
+    "ProjectKey: all parameters": {
         "arguments": {
             "ProjectId": "theprojectid",
             "ProjectKey": "theprojectkey",
@@ -35,6 +35,58 @@
             "url": "project/theprojectid/update-file?json",
             "body": {
                 "key": "theprojectkey",
+                "files[thefile]": "Content of the test file.",
+                "titles[thefile]": "thetitle",
+                "export_patterns[thefile]": "theexportpattern",
+                "new_names[thefile]": "thenewname",
+                "first_line_contains_header": "1",
+                "scheme": "thescheme",
+                "update_option": "update_without_changes",
+                "branch": "thebranch",
+                "escape_quotes": "2"
+            }
+        }
+    },
+    "AccountKey: required parameters": {
+        "arguments": {
+            "ProjectId": "theprojectid",
+            "LoginName": "theloginname",
+            "AccountKey": "theaccountkey",
+            "Name": "thefile",
+            "File": "TestDrive:/test.dat"
+        },
+        "expectedRequest": {
+            "method": "POST",
+            "url": "project/theprojectid/update-file?json",
+            "body": {
+                "login": "theloginname",
+                "account-key": "theaccountkey",
+                "files[thefile]": "Content of the test file."
+            }
+        }
+    },
+    "AccountKey: all parameters": {
+        "arguments": {
+            "ProjectId": "theprojectid",
+            "LoginName": "theloginname",
+            "AccountKey": "theaccountkey",
+            "Name": "thefile",
+            "File": "TestDrive:/test.dat",
+            "Title": "thetitle",
+            "ExportPattern": "theexportpattern",
+            "NewName": "thenewname",
+            "FirstLineContainsHeader": true,
+            "Scheme": "thescheme",
+            "UpdateOption": "update_without_changes",
+            "Branch": "thebranch",
+            "EscapeQuotes": 2
+        },
+        "expectedRequest": {
+            "method": "POST",
+            "url": "project/theprojectid/update-file?json",
+            "body": {
+                "login": "theloginname",
+                "account-key": "theaccountkey",
                 "files[thefile]": "Content of the test file.",
                 "titles[thefile]": "thetitle",
                 "export_patterns[thefile]": "theexportpattern",

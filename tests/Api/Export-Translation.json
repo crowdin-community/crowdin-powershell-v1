@@ -1,5 +1,5 @@
 {
-    "required parameters": {
+    "ProjectKey: required parameters": {
         "arguments": {
             "ProjectId": "theprojectid",
             "ProjectKey": "theprojectkey"
@@ -12,7 +12,7 @@
             }
         }
     },
-    "all parameters": {
+    "ProjectKey: all parameters": {
         "arguments": {
             "ProjectId": "theprojectid",
             "ProjectKey": "theprojectkey",
@@ -24,6 +24,40 @@
             "url": "project/theprojectid/export?json",
             "body": {
                 "key": "theprojectkey",
+                "branch": "thebranch",
+                "async": "1"
+            }
+        }
+    },
+    "AccountKey: required parameters": {
+        "arguments": {
+            "ProjectId": "theprojectid",
+            "LoginName": "theloginname",
+            "AccountKey": "theaccountkey"
+        },
+        "expectedRequest": {
+            "method": "POST",
+            "url": "project/theprojectid/export?json",
+            "body": {
+                "login": "theloginname",
+                "account-key": "theaccountkey"
+            }
+        }
+    },
+    "AccountKey: all parameters": {
+        "arguments": {
+            "ProjectId": "theprojectid",
+            "LoginName": "theloginname",
+            "AccountKey": "theaccountkey",
+            "Branch": "thebranch",
+            "Async": true
+        },
+        "expectedRequest": {
+            "method": "POST",
+            "url": "project/theprojectid/export?json",
+            "body": {
+                "login": "theloginname",
+                "account-key": "theaccountkey",
                 "branch": "thebranch",
                 "async": "1"
             }

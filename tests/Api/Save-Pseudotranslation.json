@@ -1,25 +1,60 @@
 {
-    "required parameters": {
+    "ProjectKey: required parameters": {
         "arguments": {
             "ProjectId": "theprojectid",
             "ProjectKey": "theprojectkey"
         },
         "expectedRequest": {
-            "method": "GET",
-            "url": "project/theprojectid/pseudo-download?json&key=theprojectkey",
-            "body": {}
+            "method": "POST",
+            "url": "project/theprojectid/pseudo-download?json",
+            "body": {
+                "key": "theprojectkey"
+            }
         }
     },
-    "all parameters": {
+    "ProjectKey: all parameters": {
         "arguments": {
             "ProjectId": "theprojectid",
             "ProjectKey": "theprojectkey",
             "OutDir": "theoutdir"
         },
         "expectedRequest": {
-            "method": "GET",
-            "url": "project/theprojectid/pseudo-download?json&key=theprojectkey",
-            "body": {}
+            "method": "POST",
+            "url": "project/theprojectid/pseudo-download?json",
+            "body": {
+                "key": "theprojectkey"
+            }
+        }
+    },
+    "AccountKey: required parameters": {
+        "arguments": {
+            "ProjectId": "theprojectid",
+            "LoginName": "theloginname",
+            "AccountKey": "theaccountkey"
+        },
+        "expectedRequest": {
+            "method": "POST",
+            "url": "project/theprojectid/pseudo-download?json",
+            "body": {
+                "login": "theloginname",
+                "account-key": "theaccountkey"
+            }
+        }
+    },
+    "AccountKey: all parameters": {
+        "arguments": {
+            "ProjectId": "theprojectid",
+            "LoginName": "theloginname",
+            "AccountKey": "theaccountkey",
+            "OutDir": "theoutdir"
+        },
+        "expectedRequest": {
+            "method": "POST",
+            "url": "project/theprojectid/pseudo-download?json",
+            "body": {
+                "login": "theloginname",
+                "account-key": "theaccountkey"
+            }
         }
     }
 }

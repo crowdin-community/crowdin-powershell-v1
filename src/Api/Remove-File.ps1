@@ -23,14 +23,22 @@ Remove-CrowdinFile -ProjectId apitestproject -ProjectKey 2b680...ce586 -Name 'te
 #>
 function Remove-File
 {
-    [CmdletBinding()]
+    [CmdletBinding(DefaultParameterSetName = 'AccountKey')]
     param (
         [Parameter(Mandatory)]
         [string]$ProjectId,
 
-        [Parameter(Mandatory)]
+        [Parameter(Mandatory, ParameterSetName = 'ProjectKey')]
         [Alias('key')]
         [string]$ProjectKey,
+
+        [Parameter(Mandatory, ParameterSetName = 'AccountKey')]
+        [Alias('login')]
+        [string]$LoginName,
+
+        [Parameter(Mandatory, ParameterSetName = 'AccountKey')]
+        [Alias('account-key')]
+        [string]$AccountKey,
 
         [Parameter(Mandatory)]
         [Alias('file')]

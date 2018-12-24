@@ -1,5 +1,5 @@
 {
-    "required parameters": {
+    "ProjectKey: required parameters": {
         "arguments": {
             "ProjectId": "theprojectid",
             "ProjectKey": "theprojectkey",
@@ -14,7 +14,7 @@
             }
         }
     },
-    "all parameters": {
+    "ProjectKey: all parameters": {
         "arguments": {
             "ProjectId": "theprojectid",
             "ProjectKey": "theprojectkey",
@@ -27,6 +27,44 @@
             "url": "project/theprojectid/upload-tm?json",
             "body": {
                 "key": "theprojectkey",
+                "file": "Content of the test file.",
+                "first_line_contains_header": "1",
+                "scheme": "thescheme"
+            }
+        }
+    },
+    "AccountKey: required parameters": {
+        "arguments": {
+            "ProjectId": "theprojectid",
+            "LoginName": "theloginname",
+            "AccountKey": "theaccountkey",
+            "File": "TestDrive:/test.dat"
+        },
+        "expectedRequest": {
+            "method": "POST",
+            "url": "project/theprojectid/upload-tm?json",
+            "body": {
+                "login": "theloginname",
+                "account-key": "theaccountkey",
+                "file": "Content of the test file."
+            }
+        }
+    },
+    "AccountKey: all parameters": {
+        "arguments": {
+            "ProjectId": "theprojectid",
+            "LoginName": "theloginname",
+            "AccountKey": "theaccountkey",
+            "File": "TestDrive:/test.dat",
+            "FirstLineContainsHeader": true,
+            "Scheme": "thescheme"
+        },
+        "expectedRequest": {
+            "method": "POST",
+            "url": "project/theprojectid/upload-tm?json",
+            "body": {
+                "login": "theloginname",
+                "account-key": "theaccountkey",
                 "file": "Content of the test file.",
                 "first_line_contains_header": "1",
                 "scheme": "thescheme"

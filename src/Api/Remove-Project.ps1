@@ -17,14 +17,22 @@ Remove-CrowdinProject -ProjectId apitestproject -ProjectKey 2b680...ce586
 #>
 function Remove-Project
 {
-    [CmdletBinding()]
+    [CmdletBinding(DefaultParameterSetName = 'AccountKey')]
     param (
         [Parameter(Mandatory)]
         [string]$ProjectId,
 
-        [Parameter(Mandatory)]
+        [Parameter(Mandatory, ParameterSetName = 'ProjectKey')]
         [Alias('key')]
-        [string]$ProjectKey
+        [string]$ProjectKey,
+
+        [Parameter(Mandatory, ParameterSetName = 'AccountKey')]
+        [Alias('login')]
+        [string]$LoginName,
+
+        [Parameter(Mandatory, ParameterSetName = 'AccountKey')]
+        [Alias('account-key')]
+        [string]$AccountKey
     )
 
     $ProjectId = [Uri]::EscapeDataString($ProjectId)

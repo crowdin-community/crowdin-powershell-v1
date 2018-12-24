@@ -1,5 +1,5 @@
 {
-    "required parameters": {
+    "ProjectKey: required parameters": {
         "arguments": {
             "ProjectId": "theprojectid",
             "ProjectKey": "theprojectkey",
@@ -14,7 +14,7 @@
             }
         }
     },
-    "all parameters": {
+    "ProjectKey: all parameters": {
         "arguments": {
             "ProjectId": "theprojectid",
             "ProjectKey": "theprojectkey",
@@ -26,6 +26,42 @@
             "url": "project/theprojectid/delete-file?json",
             "body": {
                 "key": "theprojectkey",
+                "file": "thefile",
+                "branch": "thebranch"
+            }
+        }
+    },
+    "AccountKey: required parameters": {
+        "arguments": {
+            "ProjectId": "theprojectid",
+            "LoginName": "theloginname",
+            "AccountKey": "theaccountkey",
+            "Name": "thefile"
+        },
+        "expectedRequest": {
+            "method": "POST",
+            "url": "project/theprojectid/delete-file?json",
+            "body": {
+                "login": "theloginname",
+                "account-key": "theaccountkey",
+                "file": "thefile"
+            }
+        }
+    },
+    "AccountKey: all parameters": {
+        "arguments": {
+            "ProjectId": "theprojectid",
+            "LoginName": "theloginname",
+            "AccountKey": "theaccountkey",
+            "Name": "thefile",
+            "Branch": "thebranch"
+        },
+        "expectedRequest": {
+            "method": "POST",
+            "url": "project/theprojectid/delete-file?json",
+            "body": {
+                "login": "theloginname",
+                "account-key": "theaccountkey",
                 "file": "thefile",
                 "branch": "thebranch"
             }

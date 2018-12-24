@@ -1,5 +1,5 @@
 {
-    "required parameters": {
+    "ProjectKey: required parameters": {
         "arguments": {
             "ProjectId": "theprojectid",
             "ProjectKey": "theprojectkey"
@@ -12,7 +12,7 @@
             }
         }
     },
-    "all parameters": {
+    "ProjectKey: all parameters": {
         "arguments": {
             "ProjectId": "theprojectid",
             "ProjectKey": "theprojectkey",
@@ -26,6 +26,43 @@
             "url": "project/theprojectid/download-tm?json",
             "body": {
                 "key": "theprojectkey",
+                "include_assigned": "1",
+                "source_language": "en-US",
+                "target_language": "fr-FR"
+            }
+        }
+    },
+    "AccountKey: required parameters": {
+        "arguments": {
+            "ProjectId": "theprojectid",
+            "LoginName": "theloginname",
+            "AccountKey": "theaccountkey"
+        },
+        "expectedRequest": {
+            "method": "POST",
+            "url": "project/theprojectid/download-tm?json",
+            "body": {
+                "login": "theloginname",
+                "account-key": "theaccountkey"
+            }
+        }
+    },
+    "AccountKey: all parameters": {
+        "arguments": {
+            "ProjectId": "theprojectid",
+            "LoginName": "theloginname",
+            "AccountKey": "theaccountkey",
+            "IncludeAssigned": true,
+            "SourceLanguage": "en-US",
+            "TargetLanguage": "fr-FR",
+            "OutDir": "theoutdir"
+        },
+        "expectedRequest": {
+            "method": "POST",
+            "url": "project/theprojectid/download-tm?json",
+            "body": {
+                "login": "theloginname",
+                "account-key": "theaccountkey",
                 "include_assigned": "1",
                 "source_language": "en-US",
                 "target_language": "fr-FR"

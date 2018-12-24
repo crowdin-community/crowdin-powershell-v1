@@ -1,5 +1,5 @@
 {
-    "required parameters": {
+    "ProjectKey: required parameters": {
         "arguments": {
             "ProjectId": "theprojectid",
             "ProjectKey": "theprojectkey"
@@ -9,6 +9,21 @@
             "url": "project/theprojectid/info?json",
             "body": {
                 "key": "theprojectkey"
+            }
+        }
+    },
+    "AccountKey: required parameters": {
+        "arguments": {
+            "ProjectId": "theprojectid",
+            "LoginName": "theloginname",
+            "AccountKey": "theaccountkey"
+        },
+        "expectedRequest": {
+            "method": "POST",
+            "url": "project/theprojectid/info?json",
+            "body": {
+                "login": "theloginname",
+                "account-key": "theaccountkey"
             }
         }
     }

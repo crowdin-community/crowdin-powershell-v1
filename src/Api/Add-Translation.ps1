@@ -1,13 +1,21 @@
 function Add-Translation
 {
-    [CmdletBinding()]
+    [CmdletBinding(DefaultParameterSetName = 'AccountKey')]
     param (
         [Parameter(Mandatory)]
         [string]$ProjectId,
 
-        [Parameter(Mandatory)]
+        [Parameter(Mandatory, ParameterSetName = 'ProjectKey')]
         [Alias('key')]
         [string]$ProjectKey,
+
+        [Parameter(Mandatory, ParameterSetName = 'AccountKey')]
+        [Alias('login')]
+        [string]$LoginName,
+
+        [Parameter(Mandatory, ParameterSetName = 'AccountKey')]
+        [Alias('account-key')]
+        [string]$AccountKey,
 
         [Parameter(Mandatory)]
         [string]$FileName,
@@ -39,11 +47,10 @@ function Add-Translation
 
     $ProjectId = [Uri]::EscapeDataString($ProjectId)
     $body = [pscustomobject]@{
-        'key' = $ProjectKey
         "files[$FileName]" = $File
     }
     $body = $PSCmdlet |
-        ConvertFrom-PSCmdlet -TargetObject $body -ExcludeParameter ProjectId,ProjectKey,FileName,File |
+        ConvertFrom-PSCmdlet -TargetObject $body -ExcludeParameter ProjectId,FileName,File |
         Resolve-File -FileProperty "files[$FileName]"
     Invoke-ApiRequest -Url "project/$ProjectId/upload-translation?json" -Body $body
 }

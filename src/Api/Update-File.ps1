@@ -1,13 +1,21 @@
 function Update-File
 {
-    [CmdletBinding()]
+    [CmdletBinding(DefaultParameterSetName = 'AccountKey')]
     param (
         [Parameter(Mandatory)]
         [string]$ProjectId,
 
-        [Parameter(Mandatory)]
+        [Parameter(Mandatory, ParameterSetName = 'ProjectKey')]
         [Alias('key')]
         [string]$ProjectKey,
+
+        [Parameter(Mandatory, ParameterSetName = 'AccountKey')]
+        [Alias('login')]
+        [string]$LoginName,
+
+        [Parameter(Mandatory, ParameterSetName = 'AccountKey')]
+        [Alias('account-key')]
+        [string]$AccountKey,
 
         [Parameter(Mandatory)]
         [string]$Name,
@@ -47,7 +55,6 @@ function Update-File
 
     $ProjectId = [Uri]::EscapeDataString($ProjectId)
     $body = [pscustomobject]@{
-        'key' = $ProjectKey
         "files[$Name]" = $File
     }
     if ($PSBoundParameters.ContainsKey('Title'))
@@ -63,7 +70,7 @@ function Update-File
         $body | Add-Member "new_names[$Name]" $NewName
     }
     $body = $PSCmdlet |
-        ConvertFrom-PSCmdlet -TargetObject $body -ExcludeParameter ProjectId,ProjectKey,Name,File,Title,ExportPattern,NewName |
+        ConvertFrom-PSCmdlet -TargetObject $body -ExcludeParameter ProjectId,Name,File,Title,ExportPattern,NewName |
         Resolve-File -FileProperty "files[$Name]"
     Invoke-ApiRequest -Url "project/$ProjectId/update-file?json" -Body $body
 }

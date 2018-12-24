@@ -1,5 +1,5 @@
 {
-    "required parameters": {
+    "ProjectKey: required parameters": {
         "arguments": {
             "ProjectId": "theprojectid",
             "ProjectKey": "theprojectkey"
@@ -12,7 +12,7 @@
             }
         }
     },
-    "all parameters": {
+    "ProjectKey: all parameters": {
         "arguments": {
             "ProjectId": "theprojectid",
             "ProjectKey": "theprojectkey",
@@ -27,6 +27,46 @@
             "url": "project/theprojectid/reports/top-members/export?json",
             "body": {
                 "key": "theprojectkey",
+                "language": "uk-UA",
+                "unit": "words",
+                "date_from": "2018-11-01",
+                "date_to": "2018-11-15",
+                "format": "csv"
+            }
+        }
+    },
+    "AccountKey: required parameters": {
+        "arguments": {
+            "ProjectId": "theprojectid",
+            "LoginName": "theloginname",
+            "AccountKey": "theaccountkey"
+        },
+        "expectedRequest": {
+            "method": "POST",
+            "url": "project/theprojectid/reports/top-members/export?json",
+            "body": {
+                "login": "theloginname",
+                "account-key": "theaccountkey"
+            }
+        }
+    },
+    "AccountKey: all parameters": {
+        "arguments": {
+            "ProjectId": "theprojectid",
+            "LoginName": "theloginname",
+            "AccountKey": "theaccountkey",
+            "Language": "uk-UA",
+            "Unit": "words",
+            "DateFrom": "2018-11-01",
+            "DateTo": "2018-11-15",
+            "Format": "csv"
+        },
+        "expectedRequest": {
+            "method": "POST",
+            "url": "project/theprojectid/reports/top-members/export?json",
+            "body": {
+                "login": "theloginname",
+                "account-key": "theaccountkey",
                 "language": "uk-UA",
                 "unit": "words",
                 "date_from": "2018-11-01",

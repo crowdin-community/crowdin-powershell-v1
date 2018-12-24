@@ -1,13 +1,21 @@
 function Add-File
 {
-    [CmdletBinding()]
+    [CmdletBinding(DefaultParameterSetName = 'AccountKey')]
     param (
         [Parameter(Mandatory)]
         [string]$ProjectId,
 
-        [Parameter(Mandatory)]
+        [Parameter(Mandatory, ParameterSetName = 'ProjectKey')]
         [Alias('key')]
         [string]$ProjectKey,
+
+        [Parameter(Mandatory, ParameterSetName = 'AccountKey')]
+        [Alias('login')]
+        [string]$LoginName,
+
+        [Parameter(Mandatory, ParameterSetName = 'AccountKey')]
+        [Alias('account-key')]
+        [string]$AccountKey,
 
         [Parameter(Mandatory)]
         [string]$Name,
@@ -62,7 +70,6 @@ function Add-File
 
     $ProjectId = [Uri]::EscapeDataString($ProjectId)
     $body = [pscustomobject]@{
-        'key' = $ProjectKey
         "files[$Name]" = $File
     }
     if ($PSBoundParameters.ContainsKey('Title'))
@@ -74,7 +81,7 @@ function Add-File
         $body | Add-Member "export_patterns[$Name]" $ExportPattern
     }
     $body = $PSCmdlet |
-        ConvertFrom-PSCmdlet -TargetObject $body -ExcludeParameter ProjectId,ProjectKey,Name,File,Title,ExportPattern |
+        ConvertFrom-PSCmdlet -TargetObject $body -ExcludeParameter ProjectId,Name,File,Title,ExportPattern |
         Resolve-File -FileProperty "files[$Name]"
     Invoke-ApiRequest -Url "project/$ProjectId/add-file?json" -Body $body
 }

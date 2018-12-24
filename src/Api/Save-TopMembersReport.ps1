@@ -1,13 +1,21 @@
 function Save-TopMembersReport
 {
-    [CmdletBinding()]
+    [CmdletBinding(DefaultParameterSetName = 'AccountKey')]
     param (
         [Parameter(Mandatory)]
         [string]$ProjectId,
 
-        [Parameter(Mandatory)]
+        [Parameter(Mandatory, ParameterSetName = 'ProjectKey')]
         [Alias('key')]
         [string]$ProjectKey,
+
+        [Parameter(Mandatory, ParameterSetName = 'AccountKey')]
+        [Alias('login')]
+        [string]$LoginName,
+
+        [Parameter(Mandatory, ParameterSetName = 'AccountKey')]
+        [Alias('account-key')]
+        [string]$AccountKey,
 
         [Parameter(Mandatory)]
         [string]$Hash,
@@ -17,7 +25,6 @@ function Save-TopMembersReport
     )
 
     $ProjectId = [Uri]::EscapeDataString($ProjectId)
-    $ProjectKey = [Uri]::EscapeDataString($ProjectKey)
-    $Hash = [Uri]::EscapeDataString($Hash)
-    Invoke-ApiRequest -Url "project/$ProjectId/reports/top-members/download?json&key=$ProjectKey&hash=$Hash" -OutDir $OutDir
+    $body = $PSCmdlet | ConvertFrom-PSCmdlet -ExcludeParameter ProjectId,OutDir
+    Invoke-ApiRequest -Url "project/$ProjectId/reports/top-members/download?json" -Body $body -OutDir $OutDir
 }

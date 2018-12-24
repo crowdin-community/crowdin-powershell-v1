@@ -1,5 +1,5 @@
 {
-    "required parameters": {
+    "ProjectKey: required parameters": {
         "arguments": {
             "ProjectId": "theprojectid",
             "ProjectKey": "theprojectkey"
@@ -12,7 +12,7 @@
             }
         }
     },
-    "all parameters": {
+    "ProjectKey: all parameters": {
         "arguments": {
             "ProjectId": "theprojectid",
             "ProjectKey": "theprojectkey",
@@ -24,6 +24,39 @@
             "url": "project/theprojectid/download-glossary?json",
             "body": {
                 "key": "theprojectkey",
+                "include_assigned": "1"
+            }
+        }
+    },
+    "AccountKey: required parameters": {
+        "arguments": {
+            "ProjectId": "theprojectid",
+            "LoginName": "theloginname",
+            "AccountKey": "theaccountkey"
+        },
+        "expectedRequest": {
+            "method": "POST",
+            "url": "project/theprojectid/download-glossary?json",
+            "body": {
+                "login": "theloginname",
+                "account-key": "theaccountkey"
+            }
+        }
+    },
+    "AccountKey: all parameters": {
+        "arguments": {
+            "ProjectId": "theprojectid",
+            "LoginName": "theloginname",
+            "AccountKey": "theaccountkey",
+            "IncludeAssigned": true,
+            "OutDir": "theoutdir"
+        },
+        "expectedRequest": {
+            "method": "POST",
+            "url": "project/theprojectid/download-glossary?json",
+            "body": {
+                "login": "theloginname",
+                "account-key": "theaccountkey",
                 "include_assigned": "1"
             }
         }

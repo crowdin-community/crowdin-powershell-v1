@@ -1,5 +1,5 @@
 {
-    "required parameters": {
+    "ProjectKey: required parameters": {
         "arguments": {
             "ProjectId": "theprojectid",
             "ProjectKey": "theprojectkey",
@@ -10,6 +10,23 @@
             "url": "project/theprojectid/export-status?json",
             "body": {
                 "key": "theprojectkey",
+                "branch": "thebranch"
+            }
+        }
+    },
+    "AccountKey: required parameters": {
+        "arguments": {
+            "ProjectId": "theprojectid",
+            "LoginName": "theloginname",
+            "AccountKey": "theaccountkey",
+            "Branch": "thebranch"
+        },
+        "expectedRequest": {
+            "method": "POST",
+            "url": "project/theprojectid/export-status?json",
+            "body": {
+                "login": "theloginname",
+                "account-key": "theaccountkey",
                 "branch": "thebranch"
             }
         }

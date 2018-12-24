@@ -1,17 +1,19 @@
 {
-    "required parameters": {
+    "ProjectKey: required parameters": {
         "arguments": {
             "ProjectId": "theprojectid",
             "ProjectKey": "theprojectkey",
             "Package": "thepackage"
         },
         "expectedRequest": {
-            "method": "GET",
-            "url": "project/theprojectid/download/thepackage.zip?json&key=theprojectkey",
-            "body": {}
+            "method": "POST",
+            "url": "project/theprojectid/download/thepackage.zip?json",
+            "body": {
+                "key": "theprojectkey"
+            }
         }
     },
-    "all parameters": {
+    "ProjectKey: all parameters": {
         "arguments": {
             "ProjectId": "theprojectid",
             "ProjectKey": "theprojectkey",
@@ -19,9 +21,44 @@
             "OutDir": "theoutdir"
         },
         "expectedRequest": {
-            "method": "GET",
-            "url": "project/theprojectid/download/thepackage.zip?json&key=theprojectkey",
-            "body": {}
+            "method": "POST",
+            "url": "project/theprojectid/download/thepackage.zip?json",
+            "body": {
+                "key": "theprojectkey"
+            }
+        }
+    },
+    "AccountKey: required parameters": {
+        "arguments": {
+            "ProjectId": "theprojectid",
+            "LoginName": "theloginname",
+            "AccountKey": "theaccountkey",
+            "Package": "thepackage"
+        },
+        "expectedRequest": {
+            "method": "POST",
+            "url": "project/theprojectid/download/thepackage.zip?json",
+            "body": {
+                "login": "theloginname",
+                "account-key": "theaccountkey"
+            }
+        }
+    },
+    "AccountKey: all parameters": {
+        "arguments": {
+            "ProjectId": "theprojectid",
+            "LoginName": "theloginname",
+            "AccountKey": "theaccountkey",
+            "Package": "thepackage",
+            "OutDir": "theoutdir"
+        },
+        "expectedRequest": {
+            "method": "POST",
+            "url": "project/theprojectid/download/thepackage.zip?json",
+            "body": {
+                "login": "theloginname",
+                "account-key": "theaccountkey"
+            }
         }
     }
 }

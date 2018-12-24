@@ -1,5 +1,5 @@
 {
-    "required parameters": {
+    "ProjectKey: required parameters": {
         "arguments": {
             "ProjectId": "theprojectid",
             "ProjectKey": "theprojectkey",
@@ -17,7 +17,7 @@
             }
         }
     },
-    "all parameters": {
+    "ProjectKey: all parameters": {
         "arguments": {
             "ProjectId": "theprojectid",
             "ProjectKey": "theprojectkey",
@@ -35,6 +35,56 @@
             "url": "project/theprojectid/upload-translation?json",
             "body": {
                 "key": "theprojectkey",
+                "files[thefile]": "Content of the test file.",
+                "language": "uk-UA",
+                "import_duplicates": "1",
+                "import_eq_suggestions": "1",
+                "auto_approve_imported": "1",
+                "format": "theformat",
+                "branch": "thebranch"
+            }
+        }
+    },
+    "AccountKey: required parameters": {
+        "arguments": {
+            "ProjectId": "theprojectid",
+            "LoginName": "theloginname",
+            "AccountKey": "theaccountkey",
+            "FileName": "thefile",
+            "File": "TestDrive:/test.dat",
+            "Language": "uk-UA"
+        },
+        "expectedRequest": {
+            "method": "POST",
+            "url": "project/theprojectid/upload-translation?json",
+            "body": {
+                "login": "theloginname",
+                "account-key": "theaccountkey",
+                "files[thefile]": "Content of the test file.",
+                "language": "uk-UA"
+            }
+        }
+    },
+    "AccountKey: all parameters": {
+        "arguments": {
+            "ProjectId": "theprojectid",
+            "LoginName": "theloginname",
+            "AccountKey": "theaccountkey",
+            "FileName": "thefile",
+            "File": "TestDrive:/test.dat",
+            "Language": "uk-UA",
+            "ImportDuplicates": true,
+            "ImportEqualSuggestions": true,
+            "AutoApproveImported": true,
+            "Format": "theformat",
+            "Branch": "thebranch"
+        },
+        "expectedRequest": {
+            "method": "POST",
+            "url": "project/theprojectid/upload-translation?json",
+            "body": {
+                "login": "theloginname",
+                "account-key": "theaccountkey",
                 "files[thefile]": "Content of the test file.",
                 "language": "uk-UA",
                 "import_duplicates": "1",

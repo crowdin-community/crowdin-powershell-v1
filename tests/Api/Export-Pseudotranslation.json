@@ -1,5 +1,5 @@
 {
-    "required parameters": {
+    "ProjectKey: required parameters": {
         "arguments": {
             "ProjectId": "theprojectid",
             "ProjectKey": "theprojectkey"
@@ -12,7 +12,7 @@
             }
         }
     },
-    "all parameters": {
+    "ProjectKey: all parameters": {
         "arguments": {
             "ProjectId": "theprojectid",
             "ProjectKey": "theprojectkey",
@@ -26,6 +26,44 @@
             "url": "project/theprojectid/pseudo-export?json",
             "body": {
                 "key": "theprojectkey",
+                "prefix": "theprefix",
+                "suffix": "thesuffix",
+                "length_transformation": "10",
+                "char_transformation": "european"
+            }
+        }
+    },
+    "AccountKey: required parameters": {
+        "arguments": {
+            "ProjectId": "theprojectid",
+            "LoginName": "theloginname",
+            "AccountKey": "theaccountkey"
+        },
+        "expectedRequest": {
+            "method": "POST",
+            "url": "project/theprojectid/pseudo-export?json",
+            "body": {
+                "login": "theloginname",
+                "account-key": "theaccountkey"
+            }
+        }
+    },
+    "AccountKey: all parameters": {
+        "arguments": {
+            "ProjectId": "theprojectid",
+            "LoginName": "theloginname",
+            "AccountKey": "theaccountkey",
+            "Prefix": "theprefix",
+            "Suffix": "thesuffix",
+            "LengthTransformation": 10,
+            "CharTransformation": "european"
+        },
+        "expectedRequest": {
+            "method": "POST",
+            "url": "project/theprojectid/pseudo-export?json",
+            "body": {
+                "login": "theloginname",
+                "account-key": "theaccountkey",
                 "prefix": "theprefix",
                 "suffix": "thesuffix",
                 "length_transformation": "10",

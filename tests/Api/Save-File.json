@@ -1,5 +1,5 @@
 {
-    "required parameters": {
+    "ProjectKey: required parameters": {
         "arguments": {
             "ProjectId": "theprojectid",
             "ProjectKey": "theprojectkey",
@@ -16,7 +16,7 @@
             }
         }
     },
-    "all parameters": {
+    "ProjectKey: all parameters": {
         "arguments": {
             "ProjectId": "theprojectid",
             "ProjectKey": "theprojectkey",
@@ -34,6 +34,54 @@
             "url": "project/theprojectid/export-file?json",
             "body": {
                 "key": "theprojectkey",
+                "file": "thefile",
+                "language": "uk-UA",
+                "branch": "thebranch",
+                "format": "theformat",
+                "export_translated_only": "1",
+                "export_approved_only": "1"
+            }
+        }
+    },
+    "AccountKey: required parameters": {
+        "arguments": {
+            "ProjectId": "theprojectid",
+            "LoginName": "theloginname",
+            "AccountKey": "theaccountkey",
+            "File": "thefile",
+            "Language": "uk-UA"
+        },
+        "expectedRequest": {
+            "method": "POST",
+            "url": "project/theprojectid/export-file?json",
+            "body": {
+                "login": "theloginname",
+                "account-key": "theaccountkey",
+                "file": "thefile",
+                "language": "uk-UA"
+            }
+        }
+    },
+    "AccountKey: all parameters": {
+        "arguments": {
+            "ProjectId": "theprojectid",
+            "LoginName": "theloginname",
+            "AccountKey": "theaccountkey",
+            "File": "thefile",
+            "Language": "uk-UA",
+            "Branch": "thebranch",
+            "Format": "theformat",
+            "TranslatedOnly": true,
+            "ApprovedOnly": true,
+            "OutDir": "theoutdir",
+            "EntityTag": "theetag"
+        },
+        "expectedRequest": {
+            "method": "POST",
+            "url": "project/theprojectid/export-file?json",
+            "body": {
+                "login": "theloginname",
+                "account-key": "theaccountkey",
                 "file": "thefile",
                 "language": "uk-UA",
                 "branch": "thebranch",

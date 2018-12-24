@@ -1,5 +1,5 @@
 {
-    "required parameters": {
+    "ProjectKey: required parameters": {
         "arguments": {
             "ProjectId": "theprojectid",
             "ProjectKey": "theprojectkey"
@@ -12,7 +12,7 @@
             }
         }
     },
-    "all parameters": {
+    "ProjectKey: all parameters": {
         "arguments": {
             "ProjectId": "theprojectid",
             "ProjectKey": "theprojectkey",
@@ -28,6 +28,48 @@
             "url": "project/theprojectid/issues?json",
             "body": {
                 "key": "theprojectkey",
+                "type": "thetype",
+                "status": "thestatus",
+                "file": "thefile",
+                "language": "uk-UA",
+                "date_from": "2018-11-01",
+                "date_to": "2018-11-15"
+            }
+        }
+    },
+    "AccountKey: required parameters": {
+        "arguments": {
+            "ProjectId": "theprojectid",
+            "LoginName": "theloginname",
+            "AccountKey": "theaccountkey"
+        },
+        "expectedRequest": {
+            "method": "POST",
+            "url": "project/theprojectid/issues?json",
+            "body": {
+                "login": "theloginname",
+                "account-key": "theaccountkey"
+            }
+        }
+    },
+    "AccountKey: all parameters": {
+        "arguments": {
+            "ProjectId": "theprojectid",
+            "LoginName": "theloginname",
+            "AccountKey": "theaccountkey",
+            "Type": "thetype",
+            "Status": "thestatus",
+            "File": "thefile",
+            "Language": "uk-UA",
+            "DateFrom": "2018-11-01",
+            "DateTo": "2018-11-15"
+        },
+        "expectedRequest": {
+            "method": "POST",
+            "url": "project/theprojectid/issues?json",
+            "body": {
+                "login": "theloginname",
+                "account-key": "theaccountkey",
                 "type": "thetype",
                 "status": "thestatus",
                 "file": "thefile",

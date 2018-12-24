@@ -1,17 +1,20 @@
 {
-    "required parameters": {
+    "ProjectKey: required parameters": {
         "arguments": {
             "ProjectId": "theprojectid",
             "ProjectKey": "theprojectkey",
             "Hash": "0123456789abcdef"
         },
         "expectedRequest": {
-            "method": "GET",
-            "url": "project/theprojectid/reports/top-members/download?json&key=theprojectkey&hash=0123456789abcdef",
-            "body": {}
+            "method": "POST",
+            "url": "project/theprojectid/reports/top-members/download?json",
+            "body": {
+                "key": "theprojectkey",
+                "hash": "0123456789abcdef"
+            }
         }
     },
-    "all parameters": {
+    "ProjectKey: all parameters": {
         "arguments": {
             "ProjectId": "theprojectid",
             "ProjectKey": "theprojectkey",
@@ -19,9 +22,47 @@
             "OutDir": "theoutdir"
         },
         "expectedRequest": {
-            "method": "GET",
-            "url": "project/theprojectid/reports/top-members/download?json&key=theprojectkey&hash=0123456789abcdef",
-            "body": {}
+            "method": "POST",
+            "url": "project/theprojectid/reports/top-members/download?json",
+            "body": {
+                "key": "theprojectkey",
+                "hash": "0123456789abcdef"
+            }
+        }
+    },
+    "AccountKey: required parameters": {
+        "arguments": {
+            "ProjectId": "theprojectid",
+            "LoginName": "theloginname",
+            "AccountKey": "theaccountkey",
+            "Hash": "0123456789abcdef"
+        },
+        "expectedRequest": {
+            "method": "POST",
+            "url": "project/theprojectid/reports/top-members/download?json",
+            "body": {
+                "login": "theloginname",
+                "account-key": "theaccountkey",
+                "hash": "0123456789abcdef"
+            }
+        }
+    },
+    "AccountKey: all parameters": {
+        "arguments": {
+            "ProjectId": "theprojectid",
+            "LoginName": "theloginname",
+            "AccountKey": "theaccountkey",
+            "Hash": "0123456789abcdef",
+            "OutDir": "theoutdir"
+        },
+        "expectedRequest": {
+            "method": "POST",
+            "url": "project/theprojectid/reports/top-members/download?json",
+            "body": {
+                "login": "theloginname",
+                "account-key": "theaccountkey",
+                "hash": "0123456789abcdef"
+            }
         }
     }
 }

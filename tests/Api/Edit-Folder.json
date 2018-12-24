@@ -1,5 +1,5 @@
 {
-    "required parameters": {
+    "ProjectKey: required parameters": {
         "arguments": {
             "ProjectId": "theprojectid",
             "ProjectKey": "theprojectkey",
@@ -14,7 +14,7 @@
             }
         }
     },
-    "all parameters": {
+    "ProjectKey: all parameters": {
         "arguments": {
             "ProjectId": "theprojectid",
             "ProjectKey": "theprojectkey",
@@ -29,6 +29,48 @@
             "url": "project/theprojectid/change-directory?json",
             "body": {
                 "key": "theprojectkey",
+                "name": "thefolder",
+                "new_name": "newfoldername",
+                "title": "thetitle",
+                "export_pattern": "theexportpattern",
+                "branch": "thebranch"
+            }
+        }
+    },
+    "AccountKey: required parameters": {
+        "arguments": {
+            "ProjectId": "theprojectid",
+            "LoginName": "theloginname",
+            "AccountKey": "theaccountkey",
+            "Name": "thefolder"
+        },
+        "expectedRequest": {
+            "method": "POST",
+            "url": "project/theprojectid/change-directory?json",
+            "body": {
+                "login": "theloginname",
+                "account-key": "theaccountkey",
+                "name": "thefolder"
+            }
+        }
+    },
+    "AccountKey: all parameters": {
+        "arguments": {
+            "ProjectId": "theprojectid",
+            "LoginName": "theloginname",
+            "AccountKey": "theaccountkey",
+            "Name": "thefolder",
+            "NewName": "newfoldername",
+            "Title": "thetitle",
+            "ExportPattern": "theexportpattern",
+            "Branch": "thebranch"
+        },
+        "expectedRequest": {
+            "method": "POST",
+            "url": "project/theprojectid/change-directory?json",
+            "body": {
+                "login": "theloginname",
+                "account-key": "theaccountkey",
                 "name": "thefolder",
                 "new_name": "newfoldername",
                 "title": "thetitle",
