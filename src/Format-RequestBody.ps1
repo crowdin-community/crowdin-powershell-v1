@@ -27,6 +27,10 @@ function Format-RequestBody
                 @{ '' = ([int]$Value) }
             }
 
+            function Format-Float {
+                @{ '' = ([double]$Value).ToString([cultureinfo]::InvariantCulture) }
+            }
+
             function Format-DateTime {
                 @{ '' = Get-Date -Date $Value -Format s }
             }
@@ -75,6 +79,15 @@ function Format-RequestBody
             }
             elseif ($Value -is [bool]) {
                 Format-Boolean
+            }
+            elseif ($Value -is [single]) {
+                Format-Float
+            }
+            elseif ($Value -is [double]) {
+                Format-Float
+            }
+            elseif ($Value -is [decimal]) {
+                Format-Float
             }
             elseif ($Value -is [System.DateTime]) {
                 Format-DateTime
