@@ -29,8 +29,8 @@
                 "key": "theprojectkey",
                 "language": "uk-UA",
                 "unit": "words",
-                "date_from": "2018-11-01",
-                "date_to": "2018-11-15",
+                "date_from": "2018-11-01T00:00:00",
+                "date_to": "2018-11-15T00:00:00",
                 "format": "csv"
             }
         }
@@ -69,8 +69,8 @@
                 "account-key": "theaccountkey",
                 "language": "uk-UA",
                 "unit": "words",
-                "date_from": "2018-11-01",
-                "date_to": "2018-11-15",
+                "date_from": "2018-11-01T00:00:00",
+                "date_to": "2018-11-15T00:00:00",
                 "format": "csv"
             }
         }
