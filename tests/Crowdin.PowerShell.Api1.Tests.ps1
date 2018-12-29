@@ -135,7 +135,7 @@ Describe "Test API requests" {
                 $result | Should -BeOfType [PSCustomObject]
                 $result.Success | Should -BeTrue
                 $result.File | Should -BeOfType [System.IO.FileInfo]
-                $expectedFileName = "$TestDrive\dowloaded.txt"
+                $expectedFileName = Join-Path $TestDrive 'dowloaded.txt'
                 $result.File.FullName | Should -BeExactly $expectedFileName
                 Get-Content -LiteralPath $expectedFileName -Raw | Should -BeExactly 'F1L3 C0N73N7'
             }
