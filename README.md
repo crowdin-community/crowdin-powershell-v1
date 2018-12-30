@@ -1,6 +1,13 @@
 # crowdin-powershell
 PowerShell module for Crowdin API is compatible with Windows PowerShell v4+ and [PowerShell Core](https://github.com/PowerShell/PowerShell#get-powershell).
 
+## Build Status
+| Azure CI (Windows) | Azure CI (Linux) | Azure CI (MacOS) |
+|--------------------|------------------|------------------|
+| [![Build status](https://dev.azure.com/crowdin/crowdin-powershell-api1/_apis/build/status/crowdin-powershell-api1-ci.windows.ps5)](https://dev.azure.com/crowdin/crowdin-powershell-api1/_build/latest?definitionId=3) | [![Build status](https://dev.azure.com/crowdin/crowdin-powershell-api1/_apis/build/status/crowdin-powershell-api1-ci.ubuntu.ps6)](https://dev.azure.com/crowdin/crowdin-powershell-api1/_build/latest?definitionId=1) | [![Build status](https://dev.azure.com/crowdin/crowdin-powershell-api1/_apis/build/status/crowdin-powershell-api1-ci.macos.ps6)](https://dev.azure.com/crowdin/crowdin-powershell-api1/_build/latest?definitionId=2) |
+| ![](https://img.shields.io/azure-devops/tests/crowdin/crowdin-powershell-api1/3.svg) | ![](https://img.shields.io/azure-devops/tests/crowdin/crowdin-powershell-api1/1.svg) | ![](https://img.shields.io/azure-devops/tests/crowdin/crowdin-powershell-api1/2.svg) |
+| ![](https://img.shields.io/azure-devops/coverage/crowdin/crowdin-powershell-api1/3.svg) | ![](https://img.shields.io/azure-devops/coverage/crowdin/crowdin-powershell-api1/1.svg) | ![](https://img.shields.io/azure-devops/coverage/crowdin/crowdin-powershell-api1/2.svg) |
+
 ## Available Cmdlets
 List of available cmdlets and corresponding Crowdin API endpoints:
 
