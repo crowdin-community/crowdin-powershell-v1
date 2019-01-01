@@ -252,22 +252,22 @@ Describe "Test API requests" {
 
             It "Throws if response has `"Error`" member and doesn't have `"Success`" member" {
                 {
-                    Test-ApiResponse [pscustomobject]@{
+                    Test-ApiResponse -Response ([pscustomobject]@{
                         IntProp = 42
                         Error = "Error message."
                         BoolProp = $true
-                    }
+                    })
                 } | Should -Throw "Error message."
             }
 
             It "Throws if response has `"Error`" member and `"Success`" member equals False" {
                 {
-                    Test-ApiResponse [pscustomobject]@{
+                    Test-ApiResponse -Response ([pscustomobject]@{
                         IntProp = 42
                         Error = "Error message."
                         BoolProp = $true
                         Success = $false
-                    }
+                    })
                 } | Should -Throw "Error message."
             }
 
