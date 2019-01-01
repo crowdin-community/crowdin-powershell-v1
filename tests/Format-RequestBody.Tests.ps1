@@ -7,8 +7,10 @@ Describe "Format-RequestBody" {
         $data = [PSCustomObject]@{
             StringParam = 'some string'
             IntParam = 7
-            FloatParamA = 3.1415
-            FloatParamB = 42.0
+            SingleParamA = [single]2.5236
+            SingleParamB = [single]17.0
+            DoubleParamA = 3.1415
+            DoubleParamB = 42.0
             DecimalParamA = 18.568d
             DecimalParamB = 173.0d
             SwitchParam = [System.Management.Automation.SwitchParameter]$true
@@ -35,8 +37,10 @@ Describe "Format-RequestBody" {
         $expected = @(
             'stringparam                : some string'
             'intparam                   : 7'
-            'floatparama                : 3.1415'
-            'floatparamb                : 42'
+            'singleparama               : 2.5236'
+            'singleparamb               : 17'
+            'doubleparama               : 3.1415'
+            'doubleparamb               : 42'
             'decimalparama              : 18.568'
             'decimalparamb              : 173'
             'switchparam                : 1'
