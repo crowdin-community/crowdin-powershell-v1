@@ -34,7 +34,7 @@
                 "title": "thetitle",
                 "export_pattern": "theexportpattern",
                 "recursive": "1",
-                "isbranch": "0",
+                "is_branch": "0",
                 "branch": "thebranch"
             }
         }
@@ -78,7 +78,7 @@
                 "title": "thetitle",
                 "export_pattern": "theexportpattern",
                 "recursive": "1",
-                "isbranch": "0",
+                "is_branch": "0",
                 "branch": "thebranch"
             }
         }

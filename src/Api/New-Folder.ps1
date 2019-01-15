@@ -31,6 +31,7 @@ function New-Folder
         [switch]$Recursive,
 
         [Parameter()]
+        [Alias('is_branch')]
         [switch]$IsBranch,
 
         [Parameter()]
